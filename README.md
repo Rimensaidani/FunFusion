@@ -18,11 +18,11 @@ FunFusion est une plateforme web moderne conçue pour connecter les personnes pa
 
 ## Installation
 1. Clonez le repository :
-2. ```bash
+    ```bash
     git clone https://github.com/Rimensaidani/FunFusion
     cd FunFusion 
     ```
-1. Si vous utilisez WAMP ou XAMPP:
+2. Si vous utilisez WAMP ou XAMPP:
 * Placez le projet dans le dossier www (WAMP) ou htdocs (XAMPP)
 * Démarrez Apache et MySQL depuis l'interface de WAMP/XAMPP
 * Accédez au projet via http://localhost/FunFusion
