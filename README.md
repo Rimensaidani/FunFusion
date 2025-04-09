@@ -46,8 +46,38 @@ Pour utiliser ce projet, vous devez installer PHP. Voici les étapes :
 3. Vérifiez l'installation de PHP en exécutant la commande suivante dans votre terminal:
    ```bash
    php -v
-   ``
+   ```
 
 ## Contributions
+  Nous remercions tous ceux qui ont contribue a ce projet !
 
+### Contributeurs 
+Les personnes suivantes ont contribue a ce projet en ajoutant des fonctionnalites, en corrigeant des bugs ou en ameliorant la documentation :
+
+- [Module Des Utilisateurs](https://github.com/tasnimhattab)
+- [Module Des Activites Virtuelles](https://github.com/RanimMer)
+- [Module Des Reclamations et Offres](https://github.com/Rimensaidani)
+- [Module Des Activites Reeles](https://github.com/MalekMorali)
+- [Module Des Avis Et Commentaires](https://github.com/NourSellami)
+- [Module Des Evenements Communautaires](https://github.com/MohamedAmine)
+
+Si vous souhaitez contribuer, suivez les etapes ci-dessous pour faire un **fork**, creer une nouvelle branche et soumettre une **pull request**.
+### Comment contribuer ?
+1. **Fork le projet** : Allez sur la page GitHub du projet et cliquez sur le bouton **Fork** dans le coin superieur droit pour creer une copie du projet dans votre propre compte GitHub.
+
+1. **Fork le projet** : Clonez le fork sur votre machine locale :
+  ```bash
+  git clone https://github.com/Rimensaidani/FunFusion.git
+  cd projet
+  ```
 ## Licence
+
+### Exemple pour **Licence** :
+```markdown
+## Licence 
+
+Ce projet est sous la licence **©FunFusion2025**. Pour plus de details, consultez le fichier [LICENSE](./LICENSE).
+
+### Details sur la license MIT 
+
+La licence ©FunFusion2025 est une licence de logiciel.
