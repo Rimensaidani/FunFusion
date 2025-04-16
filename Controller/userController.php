@@ -151,6 +151,21 @@ class userController
     }
 }
 
+//dashboard
+//affichage
+public function getAllUsers()
+{
+    $sql = "SELECT * FROM user"; 
+    $db = config::getConnexion();
+    $query = $db->prepare($sql);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+
+
 
 }
 

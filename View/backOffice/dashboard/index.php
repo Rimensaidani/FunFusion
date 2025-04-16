@@ -1,3 +1,12 @@
+<?php
+require_once '../../../Controller/userController.php';
+
+$userController = new userController();
+$users = $userController->getAllUsers();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -415,72 +424,41 @@
                             User Database
                         </div>
                         <div class="card-body">
-                            <table id="datatablesSimple" class="table table-borderless gaming-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Date of birth</th>
-                                        <th>role</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Tournament #1</td>
-                                        <td><span class="badge badge-gaming bg-primary">Valorant</span></td>
-                                        <td>15/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-primary" style="width: 80%"></div>
-                                            </div>
-                                            <small>24/30</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Stream Party</td>
-                                        <td><span class="badge badge-gaming bg-secondary">Among Us</span></td>
-                                        <td>18/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-warning" style="width: 60%"></div>
-                                            </div>
-                                            <small>12/20</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>LAN Party</td>
-                                        <td><span class="badge badge-gaming bg-success">CS:GO</span></td>
-                                        <td>20/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-success" style="width: 53%"></div>
-                                            </div>
-                                            <small>8/15</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Speedrun Challenge</td>
-                                        <td><span class="badge badge-gaming bg-danger">Minecraft</span></td>
-                                        <td>22/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-danger" style="width: 72%"></div>
-                                            </div>
-                                            <small>18/25</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>  
-                                    </tr>
-                                </tbody>
-                            </table>
+                            
+                        <table id="datatablesSimple" class="table table-borderless gaming-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Date of birth</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($users as $user): ?>
+    <tr>
+        <td><?= htmlspecialchars($user['id']) ?></td>
+        <td><?= htmlspecialchars($user['username']) ?></td>
+        <td><?= htmlspecialchars($user['email']) ?></td>
+        <td><?= htmlspecialchars($user['phone']) ?></td>
+        <td><?= htmlspecialchars($user['birth_date']) ?></td>
+        <td><?= htmlspecialchars($user['role']) ?></td>
+        <td>
+            <form method="POST" action="../../../Controller/deleteUserDash.php" onsubmit="return confirm('Are you sure?');">
+                <a href="editUserDash.php?id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">Edit</a>        
+                <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+
+        </td>
+    </tr>
+<?php endforeach; ?>
+    </tbody>
+</table>
+
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,18 @@
+<?php
+require_once '../../../Model/UserModel.php';
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $userModel = new UserModel();
+
+
+    $user = $userModel->getUserById($id);
+} else {
+    die("User ID not provided.");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -412,76 +427,40 @@
                     <div class="card gaming-card mb-4">
                         <div class="card-header border-bottom border-secondary">
                             <i class="fas fa-table me-1 text-primary"></i>
-                            User Database
+                            Update User
                         </div>
                         <div class="card-body">
-                            <table id="datatablesSimple" class="table table-borderless gaming-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Date of birth</th>
-                                        <th>role</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Tournament #1</td>
-                                        <td><span class="badge badge-gaming bg-primary">Valorant</span></td>
-                                        <td>15/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-primary" style="width: 80%"></div>
-                                            </div>
-                                            <small>24/30</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Stream Party</td>
-                                        <td><span class="badge badge-gaming bg-secondary">Among Us</span></td>
-                                        <td>18/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-warning" style="width: 60%"></div>
-                                            </div>
-                                            <small>12/20</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>LAN Party</td>
-                                        <td><span class="badge badge-gaming bg-success">CS:GO</span></td>
-                                        <td>20/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-success" style="width: 53%"></div>
-                                            </div>
-                                            <small>8/15</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Speedrun Challenge</td>
-                                        <td><span class="badge badge-gaming bg-danger">Minecraft</span></td>
-                                        <td>22/12/2023</td>
-                                        <td>
-                                            <div class="progress bg-dark" style="height: 10px;">
-                                                <div class="progress-bar bg-danger" style="width: 72%"></div>
-                                            </div>
-                                            <small>18/25</small>
-                                        </td>
-                                        <td><button class="btn btn-gaming btn-sm">JOIN</button></td>
-                                        <td>Tournament #1</td>  
-                                    </tr>
-                                </tbody>
-                            </table>
+                            
+                        
+                    <h2>Edit User</h2>
+
+                    <form method="POST" action="../../../Controller/editUserDash.php">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
+
+                        <label>Username:</label>
+                        <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>"><br><br>
+
+                        <label>Email:</label>
+                        <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" ><br><br>
+
+                        <label>Phone:</label>
+                        <input type="text" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" ><br><br>
+
+                        <label>Birth Date:</label>
+                        <input type="date" name="birth_date" value="<?= htmlspecialchars($user['birth_date']) ?>"><br><br>
+
+                        <label>Role:</label>
+                            <select name="role" >
+                            <option value="client" <?= $user['role'] === 'user' ? 'selected' : '' ?>>Client</option>
+                            <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
+                        </select><br><br>
+
+                        <button name="update" class="btn btn-gaming btn-sm" type="submit">Update User</button>
+                    </form>
+
+
+
                         </div>
                     </div>
                 </div>
