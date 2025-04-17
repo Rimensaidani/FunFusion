@@ -134,7 +134,7 @@ if (
                                             <label for="birth_date">Date of Birth</label>
                                             <input class="contactus" type="date" id="birth_date" name="birth_date" placeholder="Date of Birth">
                                             <!--<p id="pDateb" hidden class="red">Please enter your date of birth.</p><br>-->
-                                            <span id="dateb_error"></span><br>
+                                            <span id="birth_date_error"></span><br>
                                         </div>
 
                                         <div class="col-sm-12">

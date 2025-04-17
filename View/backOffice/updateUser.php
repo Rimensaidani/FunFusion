@@ -117,9 +117,9 @@ $user = $userC->showUser($_SESSION['user_id']);
                                         </div>
 
                                         <div class="col-sm-12">
-                                            <label for="date_birth">Date of Birth</label>
-                                            <input class="contactus" type="date" id="date_birth" name="date-birth" value="<?php echo htmlspecialchars($user['birth_date']); ?>">
-                                            <span id="dateb_error"></span><br>
+                                            <label for="birth_date">Date of Birth</label>
+                                            <input class="contactus" type="date" id="birth_date" name="birth_date" value="<?php echo htmlspecialchars($user['birth_date']); ?>">
+                                            <span id="birth_date_error"></span><br>
                                         </div>
 
                                         <div class="col-sm-12">
@@ -151,7 +151,7 @@ $user = $userC->showUser($_SESSION['user_id']);
 
 
 
-        <script src="js/addUser.js"></script>         
+        <script src="js/updateUser.js"></script>         
 
     </body>
  
