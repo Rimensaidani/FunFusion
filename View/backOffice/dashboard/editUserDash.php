@@ -440,21 +440,26 @@ if (isset($_GET['id'])) {
 
                         <label>Username:</label>
                         <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>"><br><br>
+                        <span id="username_error"></span><br>
 
                         <label>Email:</label>
                         <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" ><br><br>
+                        <span id="email_error"></span><br>
 
                         <label>Phone:</label>
                         <input type="text" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" ><br><br>
+                        <span id="phone_error"></span><br>
 
                         <label>Birth Date:</label>
                         <input type="date" name="birth_date" value="<?= htmlspecialchars($user['birth_date']) ?>"><br><br>
+                        <span id="birth_date_error"></span><br>
 
                         <label>Role:</label>
                             <select name="role" >
                             <option value="client" <?= $user['role'] === 'user' ? 'selected' : '' ?>>Client</option>
                             <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
                         </select><br><br>
+                        <span id="role_error"></span><br>
 
                         <button name="update" class="btn btn-gaming btn-sm" type="submit">Update User</button>
                     </form>
@@ -578,5 +583,6 @@ if (isset($_GET['id'])) {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
+    <script src="js/editUser.js"></script>     
 </body>
 </html>

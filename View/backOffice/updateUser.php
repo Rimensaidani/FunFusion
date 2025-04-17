@@ -118,22 +118,20 @@ $user = $userC->showUser($_SESSION['user_id']);
 
                                         <div class="col-sm-12">
                                             <label for="date_birth">Date of Birth</label>
-                                            <input class="contactus" type="date" id="dateb" name="dateb" value="<?php echo htmlspecialchars($user['birth_date']); ?>">
+                                            <input class="contactus" type="date" id="date_birth" name="date-birth" value="<?php echo htmlspecialchars($user['birth_date']); ?>">
+                                            <span id="dateb_error"></span><br>
                                         </div>
 
                                         <div class="col-sm-12">
-                                            <label for="role">Role</label>
-                                            <input class="contactus" type="text" id="role" name="role" value="<?php echo htmlspecialchars($user['role']); ?>">
-                                            <span id="role_error"></span><br>
+                                            <input type="hidden" name="role" value="<?php echo htmlspecialchars($user['role']); ?>">
                                         </div>
+
 
                                         <div class="col-sm-12">
                                             <label for="password">Password</label>
                                             <input class="contactus" type="text" id="password" name="password" value="<?php echo htmlspecialchars($user['password']); ?>">
                                             <span id="role_password"></span><br>
                                         </div>
-                                        
-                                        
                                             <div class="col-sm-12 text-center">
                                                 <button type="submit" id="update" name="update" class="send mx-2">Confirm</button>
                                                 <button type="button" onclick="window.location.href='account.php'" class="send mx-2">Cancel</button>

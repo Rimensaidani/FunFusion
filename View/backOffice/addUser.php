@@ -132,19 +132,16 @@ if (
 
                                         <div class="col-sm-12">
                                             <label for="birth_date">Date of Birth</label>
-                                            <input class="contactus" type="date" id="dateb" name="birth_date" placeholder="Date of Birth">
+                                            <input class="contactus" type="date" id="birth_date" name="birth_date" placeholder="Date of Birth">
                                             <!--<p id="pDateb" hidden class="red">Please enter your date of birth.</p><br>-->
-                                            <!--<span id="dateb_error"></span><br>-->
+                                            <span id="dateb_error"></span><br>
                                         </div>
 
                                         <div class="col-sm-12">
-                                            <select id="role" name="role" class="contactus" placeholder="Role">
-                                                <option value="" disabled selected hidden>Role</option>
-                                                <option value="Client">Client</option>
-                                                <option value="Admin">Admin</option>
+                                            <select hidden id="role" name="role" class="contactus" placeholder="Role">
+                                                <option value="Client" selected>Client</option>
                                             </select>
                                             <!--<p id="pRole" hidden class="red">Please select a role</p><br>-->
-                                            <span id="role_error"></span><br>
                                         </div>
 
                                         <div class="col-sm-12">

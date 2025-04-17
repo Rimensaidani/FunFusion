@@ -85,10 +85,6 @@ $user = $_SESSION['user'];
                                             <input class="contactus" type="date" id="dateb" name="birth_date" value="<?php echo htmlspecialchars($user['birth_date']);  ?>" disabled>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <label for="role">Role</label>
-                                            <input class="contactus" type="text" id="role" name="role" value="<?php echo htmlspecialchars($user['role']);  ?>" disabled>
-                                        </div>
 
                                         <div class="col-sm-12">
                                             <label for="password">Password</label>
