@@ -268,7 +268,7 @@ $users = $userController->getAllUsers();
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading">GAMING</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Users
                         </a>
@@ -451,8 +451,7 @@ $users = $userController->getAllUsers();
                 <a href="editUserDash.php?id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">Edit</a>        
                 <input type="hidden" name="id" value="<?= $user['id'] ?>">
                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-        </form>
-
+            </form>
         </td>
     </tr>
 <?php endforeach; ?>

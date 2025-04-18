@@ -24,6 +24,7 @@ if (isset($_GET['id'])) {
     <title>Dashboard | FunFusion</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <style>
         :root {
@@ -274,7 +275,7 @@ if (isset($_GET['id'])) {
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading">GAMING</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Users
                         </a>
@@ -327,7 +328,7 @@ if (isset($_GET['id'])) {
                         <h2 class="display-4 mb-4" style="font-weight: 800; letter-spacing: 2px;">FUNFUSION GAMING</h2>
                         <p class="lead mb-0">The perfect platform to connect with gamers who share your passion for virtual experiences and competitive play.</p>
                     </div>
-                    
+                    <!--
                     <div class="row">
                         <div class="col-xl-3 col-md-6">
                             <div class="card gaming-card bg-gaming-primary text-white mb-4">
@@ -397,7 +398,7 @@ if (isset($_GET['id'])) {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     
                     <!--<div class="row">
                         <div class="col-xl-6">
@@ -435,33 +436,34 @@ if (isset($_GET['id'])) {
                     <h2>Edit User</h2>
 
                     <form method="POST" action="../../../Controller/editUserDash.php">
-                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="action" value="update"><br>
                         <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
 
-                        <label>Username:</label>
-                        <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>"><br><br>
+                        <label class="sb-sidenav-menu-heading">Username:</label><br>
+                        <input class="col-xl-3 col-md-6" type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>"><br><br>
                         <span id="username_error"></span><br>
 
-                        <label>Email:</label>
-                        <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" ><br><br>
+                        <label class="sb-sidenav-menu-heading">Email:</label><br>
+                        <input class="col-xl-3 col-md-6" type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" ><br><br>
                         <span id="email_error"></span><br>
 
-                        <label>Phone:</label>
-                        <input type="text" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" ><br><br>
+                        <label class="sb-sidenav-menu-heading">Phone:</label><br>
+                        <input class="col-xl-3 col-md-6" type="text" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" ><br><br>
                         <span id="phone_error"></span><br>
 
-                        <label>Birth Date:</label>
-                        <input type="date" name="birth_date" value="<?= htmlspecialchars($user['birth_date']) ?>"><br><br>
+                        <label class="sb-sidenav-menu-heading">Birth Date:</label><br>
+                        <input class="col-xl-3 col-md-6" type="date" name="birth_date" value="<?= htmlspecialchars($user['birth_date']) ?>"><br><br>
                         <span id="birth_date_error"></span><br>
 
-                        <label>Role:</label>
-                            <select name="role" >
-                            <option value="client" <?= $user['role'] === 'user' ? 'selected' : '' ?>>Client</option>
-                            <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
+                        <label class="sb-sidenav-menu-heading">Role:</label><br>
+                            <select class="col-xl-3 col-md-6" name="role" >
+                            <option class="col-xl-3 col-md-6" value="client" <?= $user['role'] === 'user' ? 'selected' : '' ?>>Client</option>
+                            <option class="col-xl-3 col-md-6" value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
                         </select><br><br>
                         <span id="role_error"></span><br>
 
                         <button name="update" class="btn btn-gaming btn-sm" type="submit">Update User</button>
+                        <button onclick="window.location.href='index.php'" class="btn btn-gaming btn-sm" type="submit">Back</button>
                     </form>
 
 

@@ -172,10 +172,10 @@ document.getElementById("forms").addEventListener("submit", function(event) {
         displayMessage("username", "Username must contain at least 3 characters", true);
         isValid = false;
     } 
-    /*else 
+    else 
     {
-        displayMessage("username", "Correct", false);
-    }*/
+        displayMessage("username", "", false);
+    }
 
     // email
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -184,10 +184,10 @@ document.getElementById("forms").addEventListener("submit", function(event) {
         displayMessage("email", "Please enter a valid email address", true);
         isValid = false;
     } 
-    /*else 
+    else 
     {
-        displayMessage("email", "Correct", false);
-    }*/
+        displayMessage("email", "", false);
+    }
 
     // phone
     if (isNaN(phone) || (!/^\d{8}$/.test(phone))) 
@@ -195,10 +195,10 @@ document.getElementById("forms").addEventListener("submit", function(event) {
         displayMessage("phone", "Please enter a valid phone number", true);
         isValid = false;
     } 
-    /*else 
+    else
     {
-        displayMessage("phone", "Correct", false);
-    }*/
+        displayMessage("phone", "", false);
+    }
 
     // birthday
         var bdate = new Date(birthDate);
@@ -213,13 +213,14 @@ document.getElementById("forms").addEventListener("submit", function(event) {
     
         if (isNaN(bdate.getTime()) || age < 18) 
         {
-            displayMessage("birth_date", "You must be over 18 to have an account", true); 
+            displayMessage("birth_date", "You must be over 18 to have an account", true);
+            isValid = false; 
         } 
-        /*else 
+        else
         {
-            displayMessage("birth_date", "Correct", false);
+            displayMessage("birth_date", "", false);
             
-        } */
+        } 
 
     // password
     if (password.length < 10) 
@@ -227,14 +228,16 @@ document.getElementById("forms").addEventListener("submit", function(event) {
         displayMessage("password", "Password must be at least 10 characters long", true);
         isValid = false;
     } 
-    /*else 
+    else 
     {
-        displayMessage("password", "Correct", false);
-    }*/
+        displayMessage("password", "", false);
+    }
+
 
     if (!isValid) 
     {
         event.preventDefault();
+        alert("Submission failed. Ensure all required fields are valid.");
     }
     else
     {
