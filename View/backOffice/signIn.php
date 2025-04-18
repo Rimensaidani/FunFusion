@@ -1,5 +1,5 @@
 <?php
-
+/*
 
 session_start();
 require_once '../../Model/user.php';
@@ -18,6 +18,40 @@ if (isset($_POST['signin'])) {
         $_SESSION['user'] = $user;  
         $_SESSION['user_id'] = $user['id'];
         header('Location:../../View/frontOffice/index_signin.php'); 
+        exit;
+    } else {
+        $error = "Nom d'utilisateur ou mot de passe incorrect.";
+    }
+}*/
+?>
+<?php
+session_start();
+require_once '../../Model/user.php';
+require_once '../../config.php';
+require_once '../../Controller/userController.php';
+
+$error = '';
+
+if (isset($_POST['signin'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $controller = new userController();
+    $user = $controller->getUserByUsername($username);
+
+    // For now you’re comparing plaintext; later switch this to password_verify()
+    if ($user && $user['password'] === $password) {
+        // 1) Store everything in the session
+        $_SESSION['user']    = $user;
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role']    = $user['role'];  
+
+        // 2) Redirect based on role
+        if ($user['role'] === 'admin') {
+            header('Location:../../View/backOffice/dashboard/index.php');
+        } else {
+            header('Location:../../View/frontOffice/index_signin.php');
+        }
         exit;
     } else {
         $error = "Nom d'utilisateur ou mot de passe incorrect.";
@@ -78,7 +112,7 @@ if (isset($_POST['signin'])) {
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="contact">
     
-                                <form <form method="post" action="">
+                                <form method="post" action="">
                                     <div class="row">
                                         
                                         <div class="col-sm-12"><br><br><br><br><br>

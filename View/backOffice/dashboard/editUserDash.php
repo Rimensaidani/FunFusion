@@ -435,7 +435,7 @@ if (isset($_GET['id'])) {
                         
                     <h2>Edit User</h2>
 
-                    <form method="POST" action="../../../Controller/editUserDash.php">
+                    <form id="form" method="POST" action="../../../Controller/editUserDash.php">
                         <input type="hidden" name="action" value="update"><br>
                         <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
 
@@ -463,7 +463,7 @@ if (isset($_GET['id'])) {
                         <span id="role_error"></span><br>
 
                         <button name="update" class="btn btn-gaming btn-sm" type="submit">Update User</button>
-                        <button onclick="window.location.href='index.php'" class="btn btn-gaming btn-sm" type="submit">Back</button>
+                        <button onclick="window.location.href='index.php'" class="btn btn-gaming btn-sm" type="submit">Cancel</button>
                     </form>
 
 

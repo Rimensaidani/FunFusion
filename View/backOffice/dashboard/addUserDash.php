@@ -1,10 +1,37 @@
 <?php
-require_once '../../../Controller/userController.php';
 
-$userController = new userController();
-$users = $userController->getAllUsers();
+require_once __DIR__.'/../../../Controller/userController.php';
+
+$error='';
+$user=null;
+$userC = new userController();
+
+if (
+    isset($_POST['username'], $_POST['email'], $_POST['phone'], $_POST['birth_date'], $_POST['role'], $_POST['password']) &&
+    !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['phone']) &&
+    !empty($_POST['birth_date']) && !empty($_POST['role']) && !empty($_POST['password'])
+) 
+{
+
+    $user = new user(
+        null,
+        $_POST['username'],
+        $_POST['email'],
+        $_POST['phone'],
+        new DateTime($_POST['birth_date']),
+        $_POST['role'],
+        $_POST['password']
+    );
+
+    $userC->addUser($user);
+    header('Location: index.php');
+    
+} 
+else 
+{
+    $error = 'Please enter valid data.';
+}
 ?>
-
 
 
 <!DOCTYPE html>
@@ -18,6 +45,7 @@ $users = $userController->getAllUsers();
     <title>Dashboard | FunFusion</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <style>
         :root {
@@ -234,20 +262,7 @@ $users = $userController->getAllUsers();
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
             <i class="fas fa-bars"></i>
         </button>
-       <!-- <a href="../Controller/logout.php" class="login">
-            <img src="assets/images/logout24.png" height="14" alt="logout icon">Log Out
-        </a>-->
-
-        <!-- Navbar Search
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control bg-dark text-white border-dark" type="text" placeholder="Search games..." aria-label="Search" />
-                <button class="btn btn-gaming" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </form>-->
-        <!-- Navbar-->
+        
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle pulse-animation" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -256,7 +271,7 @@ $users = $userController->getAllUsers();
                 <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item text-white" href="#!"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider bg-secondary" /></li>
-                    <li><a href="../../../Controller/logout.php"  class="dropdown-item text-danger" href="#!"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="#!"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -296,19 +311,7 @@ $users = $userController->getAllUsers();
                             <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
                             amine
                         </a>
-                        <!--<div class="sb-sidenav-menu-heading">COMMUNITY</div>
-                        <a class="nav-link" href="streams.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
-                            Streams
-                        </a>
-                        <a class="nav-link" href="chat.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-comments"></i></div>
-                            Chat
-                        </a>
-                        <a class="nav-link" href="events.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-star"></i></div>
-                            Events
-                        </a>-->
+                        
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -326,146 +329,54 @@ $users = $userController->getAllUsers();
                         <p class="lead mb-0">The perfect platform to connect with gamers who share your passion for virtual experiences and competitive play.</p>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card gaming-card bg-gaming-primary text-white mb-4">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h5 class="card-title">ACTIVE GAMES</h5>
-                                            <h2 class="mb-0">24</h2>
-                                        </div>
-                                        <i class="fas fa-gamepad fa-3x opacity-50"></i>
-                                    </div>
-                                </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between border-top border-secondary">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card gaming-card bg-gaming-secondary text-white mb-4">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h5 class="card-title">FRIENDS ONLINE</h5>
-                                            <h2 class="mb-0">15</h2>
-                                        </div>
-                                        <i class="fas fa-users fa-3x opacity-50"></i>
-                                    </div>
-                                </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between border-top border-secondary">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card gaming-card bg-gaming-accent text-white mb-4">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h5 class="card-title">NEW MESSAGES</h5>
-                                            <h2 class="mb-0">8</h2>
-                                        </div>
-                                        <i class="fas fa-envelope fa-3x opacity-50"></i>
-                                    </div>
-                                </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between border-top border-secondary">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card gaming-card bg-dark text-white mb-4">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h5 class="card-title">ACHIEVEMENTS</h5>
-                                            <h2 class="mb-0">12</h2>
-                                        </div>
-                                        <i class="fas fa-trophy fa-3x opacity-50"></i>
-                                    </div>
-                                </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between border-top border-secondary">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     
-                    <!--<div class="row">
-                        <div class="col-xl-6">
-                            <div class="card gaming-card mb-4">
-                                <div class="card-header border-bottom border-secondary">
-                                    <i class="fas fa-chart-line me-1 text-primary"></i>
-                                    GAMING ACTIVITY (LAST 30 DAYS)
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="myAreaChart" width="100%" height="40"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="card gaming-card mb-4">
-                                <div class="card-header border-bottom border-secondary">
-                                    <i class="fas fa-chart-pie me-1 text-primary"></i>
-                                    GAME TIME DISTRIBUTION
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="myBarChart" width="100%" height="40"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
+                    
                     
                     <div class="card gaming-card mb-4">
                         <div class="card-header border-bottom border-secondary">
                             <i class="fas fa-table me-1 text-primary"></i>
-                            User Database
+                            Update User
                         </div>
                         <div class="card-body">
-                            <!-- Add User Button -->
-                            <div class="mb-3 text-start">
-                                <a href="addUserDash.php" class="btn btn-primary btn-sm">
-                                <i class="fas fa-user-plus me-1"></i> Add User </a>
-                                </div>
                             
-                        <table id="datatablesSimple" class="table table-borderless gaming-table">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date of birth</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($users as $user): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($user['id']) ?></td>
-                                <td><?= htmlspecialchars($user['username']) ?></td>
-                                <td><?= htmlspecialchars($user['email']) ?></td>
-                                <td><?= htmlspecialchars($user['phone']) ?></td>
-                                <td><?= htmlspecialchars($user['birth_date']) ?></td>
-                                <td><?= htmlspecialchars($user['role']) ?></td>
-                                <td>
-                                    <form method="POST" action="../../../Controller/deleteUserDash.php" onsubmit="return confirm('Are you sure?');">
-                                        <a href="editUserDash.php?id=<?= $user['id'] ?>" class="btn btn-sm btn-primary">Edit</a>        
-                                        <input type="hidden" name="id" value="<?= $user['id'] ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                 </td>
-                             </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                            </table>
+                        
+                    <h2>Add User</h2>
+
+                    <form id="form" method="POST" action="">
+                        
+                        <label class="sb-sidenav-menu-heading">Username:</label><br>
+                        <input class="col-xl-3 col-md-6" type="text" id="username" name="username" ><br><br>
+                        <span id="username_error"></span><br>
+
+                        <label class="sb-sidenav-menu-heading">Email:</label><br>
+                        <input class="col-xl-3 col-md-6" type="email" id="email" name="email" ><br><br>
+                        <span id="email_error"></span><br>
+
+                        <label class="sb-sidenav-menu-heading">Phone:</label><br>
+                        <input class="col-xl-3 col-md-6" type="text" id="phone" name="phone" ><br><br>
+                        <span id="phone_error"></span><br>
+
+                        <label class="sb-sidenav-menu-heading">Birth Date:</label><br>
+                        <input class="col-xl-3 col-md-6" type="date" id="birth_date" name="birth_date" ><br><br>
+                        <span id="birth_date_error"></span><br>
+
+                        <label class="sb-sidenav-menu-heading">Role:</label><br>
+                        <select class="col-xl-3 col-md-6" id="role" name="role">
+                            <option class="col-xl-3 col-md-6" selected disabled hidden >Role</option>
+                            <option class="col-xl-3 col-md-6" value="admin" >Admin</option>
+                            <option class="col-xl-3 col-md-6" value="client" >Client</option>
+                        </select><br><br>
+                        <span id="role_error"></span><br>
+
+                        <label class="sb-sidenav-menu-heading">Password:</label><br>
+                        <input class="col-xl-3 col-md-6" type="password" id="password" name="password" ><br><br>
+                        <span id="password_error"></span><br>
+
+                        <button class="btn btn-gaming btn-sm" type="submit">Add User</button>
+                        <button onclick="window.location.href='index.php'" class="btn btn-gaming btn-sm" type="submit">Cancel</button>
+                    </form>
+
+
 
                         </div>
                     </div>
@@ -584,5 +495,6 @@ $users = $userController->getAllUsers();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
+    <script src="js/editUser.js"></script>     
 </body>
 </html>

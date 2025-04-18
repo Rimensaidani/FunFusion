@@ -48,7 +48,8 @@
                 </div>
                 <nav class="d-flex aic">
                     <a href="../backOffice/account.php" class="login"><i class="fa fa-user" aria-hidden="true"></i>My account</a>
-                    <a href="../backOffice/signIn.php" class="login"><img src="assets/images/logout24.png" height="14" alt="logout icon">Log Out</a>
+                    <a href="../../Controller/logout.php" class="login"><img src="assets/images/logout24.png" height="14" alt="logout icon">Log Out</a>
+
                     <ul class="nav social d-none d-md-flex">
                         <li><a href="https://www.facebook.com/fh5co" target="_blank"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
