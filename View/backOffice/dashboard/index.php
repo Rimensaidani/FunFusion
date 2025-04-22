@@ -1,10 +1,13 @@
 <?php
+session_start();
+?>
+<?php
 require_once '../../../Controller/userController.php';
 
 $userController = new userController();
 $users = $userController->getAllUsers();
-?>
 
+?>
 
 
 <!DOCTYPE html>
@@ -223,8 +226,35 @@ $users = $userController->getAllUsers();
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+    setTimeout(() => 
+    {
+    const alert = document.querySelector('.alert');
+    if (alert) alert.style.display = 'none';
+    }, 2500); // hides after 4 seconds
+    </script>
+
+    
+
 </head>
 <body class="sb-nav-fixed">
+    <?php session_start(); ?>
+
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger" style="max-width: 600px; margin: 20px auto; padding: 15px 20px; border-radius: 8px; font-weight: 500;">
+            <?= $_SESSION['error']; ?>
+            <?php unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success" style="max-width: 600px; margin: 20px auto; padding: 15px 20px; border-radius: 8px; font-weight: 500;">
+            <?= $_SESSION['success']; ?>
+            <?php unset($_SESSION['success']); ?>
+        </div>
+    <?php endif; ?>
+
+
     <nav class="sb-topnav navbar navbar-expand navbar-dark gaming-navbar">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.html">
@@ -433,7 +463,8 @@ $users = $userController->getAllUsers();
                                 <a href="addUserDash.php" class="btn btn-primary btn-sm">
                                 <i class="fas fa-user-plus me-1"></i> Add User </a>
                                 </div>
-                            
+                         
+   
                         <table id="datatablesSimple" class="table table-borderless gaming-table">
                             <thead>
                                 <tr>

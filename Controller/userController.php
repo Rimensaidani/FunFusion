@@ -132,7 +132,32 @@ class userController
             die('Error: '.$e->getMessage());        
         }
     }
-    
+
+
+    public function deleteUserDash($idd)
+{
+    if ($idd === 63) 
+    {
+        $_SESSION['error'] = "You cannot delete the main admin";
+        return;
+    }
+
+    $sql = "DELETE FROM user WHERE id=:id";
+    $db = config::getConnexion();
+    $query = $db->prepare($sql);
+    $query->bindValue(':id', $idd);
+    try 
+    {
+        $query->execute();
+        $_SESSION['success'] = "User deleted successfully.";
+    } 
+    catch (Exception $e) 
+    {
+        $_SESSION['error'] = "Error: " . $e->getMessage();
+    }
+}
+
+  
 
     //signin
     public function getUserByUsername($username)
