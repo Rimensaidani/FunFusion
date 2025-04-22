@@ -70,7 +70,11 @@
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+<<<<<<< HEAD
                         <li class="nav-item"><a class="nav-link" href="#Offers-and-challenges">Offers and challenges</a></li>
+=======
+                        <li class="nav-item"><a class="nav-link" href="#Offers and challanges">Offers and challanges</a></li>
+>>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
                         <li class="nav-item"><a class="nav-link" href="#">Activities</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
                     </ul>
@@ -224,7 +228,11 @@
                     </div>
                     <p>At FunFusion, we believe that great experiences are even better when shared. Our platform connects people with similar interests to enjoy activities together—whether in the real world or online.
 
+<<<<<<< HEAD
                         Love outdoor adventures? Find partners for sports, hiking, escape games, and more. Prefer virtual fun? Join gaming sessions, movie nights, or live-streamed events. With our smart matchmaking system, you'll easily meet like-minded people and create unforgettable moments.
+=======
+                        Love outdoor adventures? Find partners for sports, hiking, escape games, and more. Prefer virtual fun? Join gaming sessions, movie nights, or live-streamed events. With our smart matchmaking system, you’ll easily meet like-minded people and create unforgettable moments.
+>>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
                         
                         Join us and start exploring new activities with new friends today!
                         
@@ -366,6 +374,7 @@
         </div>
     </section>
     <!-- Trust End -->
+<<<<<<< HEAD
    
    <!-- Pricing Start -->
 <section class="pricing-table" id="Offers-and-challenges">
@@ -429,6 +438,68 @@
     </div>
 </section>
 <!-- Pricing End -->
+=======
+    [Le code que vous avez fourni reste exactement le même jusqu'à la section Pricing Table]
+    <!-- Pricing Start -->
+    <section class="pricing-table" id="Offers and challanges">
+        <div class="container">
+            <div class="title text-center">
+                <h6 class="title-primary">Our Offers nd challenges </h6>
+                <h1 class="title-blue">Offers nd challenges Table List</h1>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <div class="single-pricing text-center" data-aos="fade-up" data-aos-delay="0"
+                        data-aos-duration="600">
+                        <span>1st one</span>
+                        <h2>Starter</h2>
+                        <p class="desc">MISSION</p>
+                        <p class="price">FREE</p>
+                        <p>Remporte une réduction exclusive chez Decathlon en relevant avec succès deux défis sportifs sur notre plateforme FunFusion</p>
+                        
+                        <a href="liste_defis.php" class="btn btn-primary">Enjoy Now</a>
+                        <svg viewBox="0 0 170 193">
+                            <path fill-rule="evenodd" fill="rgb(238, 21, 21)"
+                                d="M39.000,31.999 C39.000,31.999 -21.000,86.500 9.000,121.999 C39.000,157.500 91.000,128.500 104.000,160.999 C117.000,193.500 141.000,201.000 150.000,183.000 C159.000,165.000 172.000,99.000 167.000,87.000 C162.000,75.000 170.000,63.000 152.000,45.000 C134.000,27.000 128.000,15.999 116.000,11.000 C104.000,6.000 89.000,-0.001 89.000,-0.001 L39.000,31.999 Z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="single-pricing text-center" data-aos="fade-up" data-aos-delay="300"
+                        data-aos-duration="600">
+                        <span>2nd</span>
+                        <h2>Starter</h2>
+                        <p class="desc">QUIZ</p>
+                        <p class="price">FREE</p>
+                        <p>Gagne un code promo Netflix en participant à trois soirées cinéma organisées via FunFusion."</p>
+                        <a href="liste_defis.php" class="btn btn-primary">Enjoy Now</a>
+                        
+                        <svg viewBox="0 0 170 193">
+                            <path fill-rule="evenodd" fill="rgb(238, 21, 21)"
+                                d="M39.000,31.999 C39.000,31.999 -21.000,86.500 9.000,121.999 C39.000,157.500 91.000,128.500 104.000,160.999 C117.000,193.500 141.000,201.000 150.000,183.000 C159.000,165.000 172.000,99.000 167.000,87.000 C162.000,75.000 170.000,63.000 152.000,45.000 C134.000,27.000 128.000,15.999 116.000,11.000 C104.000,6.000 89.000,-0.001 89.000,-0.001 L39.000,31.999 Z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="single-pricing text-center" data-aos="fade-up" data-aos-delay="600"
+                        data-aos-duration="600">
+                        <span>3th</span>
+                        <h2>Starter</h2>
+                        <p class="desc">test</p>
+                        <p class="price">FREE</p>
+                        <p>Recevez un goodie exclusif d un partenaire local en faisant partie des meilleurs contributeurs sur FunFusion.</p>
+                        <a href="liste_defis.php" class="btn btn-primary">Enjoy Now</a>
+                        <svg viewBox="0 0 170 193">
+                            <path fill-rule="evenodd" fill="rgb(238, 21, 21)"
+                                d="M39.000,31.999 C39.000,31.999 -21.000,86.500 9.000,121.999 C39.000,157.500 91.000,128.500 104.000,160.999 C117.000,193.500 141.000,201.000 150.000,183.000 C159.000,165.000 172.000,99.000 167.000,87.000 C162.000,75.000 170.000,63.000 152.000,45.000 C134.000,27.000 128.000,15.999 116.000,11.000 C104.000,6.000 89.000,-0.001 89.000,-0.001 L39.000,31.999 Z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Pricing End -->
+>>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
 
     <!-- Testimonial and Clients Start -->
     <section class="testimonial-and-clients">

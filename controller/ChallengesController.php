@@ -42,6 +42,7 @@ class ChallengesController {
             return false;
         }
     }
+<<<<<<< HEAD
     public function modifierChallenge($id, $title, $type, $creation_date, $score) {
         try {
             $pdo = config::getConnexion();
@@ -56,4 +57,7 @@ class ChallengesController {
 }
 
 
+=======
+}
+>>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
 ?>

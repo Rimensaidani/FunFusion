@@ -272,6 +272,7 @@
                             Achievements
                         </a>
                         <div class="sb-sidenav-menu-heading">Communication</div>
+<<<<<<< HEAD
                         <a class="nav-link" href="challenges.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
                             Challenges
@@ -280,6 +281,16 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-gift"></i></div>
                             Offres
                         </a>
+=======
+                        <a class="nav-link" href="challenges-and-offers.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
+                            Challenges & Offers
+                        </a>
+                        
+                            
+                        </a>
+                        
+>>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
                         <a class="nav-link" href="chat.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-comments"></i></div>
                             Chat
@@ -301,7 +312,11 @@
                 <div class="container-fluid px-4">
                     <div class="welcome-banner">
                         <h1 class="mt-4 mb-3 neon-text">WELCOME TO</h1>
+<<<<<<< HEAD
                         <h2 class="display-4 mb-4" style="font-weight: 800; letter-spacing: 2px;">FUNFUSION DASHBOARD</h2>
+=======
+                        <h2 class="display-4 mb-4" style="font-weight: 800; letter-spacing: 2px;">FUNFUSION </h2>
+>>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
                         <p class="lead mb-0">The perfect platform to connect with gamers who share your passion for virtual experiences and competitive play.</p>
                     </div>
                     
@@ -585,5 +600,15 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
+<<<<<<< HEAD
+=======
+    <script>
+        document.querySelector('a[href="challanges-and-offers.php"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Tentative d'accès à:", this.href);
+            window.location.href = this.href;
+        });
+    </script>
+>>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
 </body>
 </html>
