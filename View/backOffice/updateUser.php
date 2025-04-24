@@ -16,7 +16,7 @@ if (isset($_POST['update'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $birth_date = new DateTime($_POST['dateb']);
+    $birth_date = new DateTime($_POST['birth_date']);
     $role = $_POST['role'];
     $password = $_POST['password'];
 
@@ -118,7 +118,7 @@ $user = $userC->showUser($_SESSION['user_id']);
 
                                         <div class="col-sm-12">
                                             <label for="birth_date">Date of Birth</label>
-                                            <input class="contactus" type="date" id="birth_date" name="birth_date" value="<?php echo htmlspecialchars($user['birth_date']); ?>">
+                                            <input class="contactus" type="date" id="birth_date" name="birth_date" value="<?php echo htmlspecialchars($user['birth_date']); ?>" >
                                             <span id="birth_date_error"></span><br>
                                         </div>
 

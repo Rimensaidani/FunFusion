@@ -297,9 +297,9 @@ $users = $userController->getAllUsers();
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">CORE</div>
-                        <a class="nav-link active" href="index.html">
+                        <a class="nav-link active" href="../../frontOffice/index_signin.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
+                            Website
                         </a>
                         <div class="sb-sidenav-menu-heading">GAMING</div>
                         <a class="nav-link" href="index.php">

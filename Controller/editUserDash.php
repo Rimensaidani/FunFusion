@@ -2,13 +2,13 @@
 include_once '../Model/UserModel.php';
 include_once '../Model/User.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update') {
-    // Get form values
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update') 
+{    
     $id = $_POST['id'];
     $username = $_POST['username'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $birth_date = new DateTime($_POST['birth_date']);  // Convert string to DateTime object
+    $birth_date = new DateTime($_POST['birth_date']);  
     $role = $_POST['role'];
     $password = $_POST['password'];  
 

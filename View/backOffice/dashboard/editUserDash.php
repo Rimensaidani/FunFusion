@@ -440,19 +440,19 @@ if (isset($_GET['id'])) {
                         <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
 
                         <label class="sb-sidenav-menu-heading">Username:</label><br>
-                        <input class="col-xl-3 col-md-6" type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>"><br><br>
+                        <input class="col-xl-3 col-md-6" type="text" id="username" name="username" value="<?= htmlspecialchars($user['username']) ?>"><br><br>
                         <span id="username_error"></span><br>
 
                         <label class="sb-sidenav-menu-heading">Email:</label><br>
-                        <input class="col-xl-3 col-md-6" type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" ><br><br>
+                        <input class="col-xl-3 col-md-6" type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" ><br><br>
                         <span id="email_error"></span><br>
 
                         <label class="sb-sidenav-menu-heading">Phone:</label><br>
-                        <input class="col-xl-3 col-md-6" type="text" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" ><br><br>
+                        <input class="col-xl-3 col-md-6" type="text" id="phone" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" ><br><br>
                         <span id="phone_error"></span><br>
 
                         <label class="sb-sidenav-menu-heading">Birth Date:</label><br>
-                        <input class="col-xl-3 col-md-6" type="date" name="birth_date" value="<?= htmlspecialchars($user['birth_date']) ?>"><br><br>
+                        <input class="col-xl-3 col-md-6" type="date" id="birth_date" name="birth_date" value="<?= htmlspecialchars($user['birth_date']) ?>"><br><br>
                         <span id="birth_date_error"></span><br>
 
                         <label class="sb-sidenav-menu-heading">Role:</label><br>
@@ -461,6 +461,8 @@ if (isset($_GET['id'])) {
                             <option class="col-xl-3 col-md-6" value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
                         </select><br><br>
                         <span id="role_error"></span><br>
+
+                        <input type="hidden" name="password" value="<?= htmlspecialchars($user['password']) ?>">
 
                         <button name="update" class="btn btn-gaming btn-sm" type="submit">Update User</button>
                         <button onclick="window.location.href='index.php'" class="btn btn-gaming btn-sm" type="submit">Cancel</button>

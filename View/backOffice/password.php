@@ -65,7 +65,7 @@
                                             <button class="send">Reset Password</button><br><br><br><br><br>
                                         </div>
                                         <div class="col-sm-12">
-                                            <u><a href="addUser.html">Need an account? Sign up!</a></u>
+                                            <u><a href="addUser.php">Need an account? Sign up!</a></u>
                                         </div>
 
                                     </div>

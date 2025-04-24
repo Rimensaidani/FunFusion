@@ -9,7 +9,7 @@ document.getElementById("forms").addEventListener("submit", function(event) {
     
     var isValid = true;
 
-    // Fonction pour afficher les messages d'erreur ou de succès
+
     function displayMessage(id, message, isError) 
     {
         var element = document.getElementById(id + "_error");
@@ -65,10 +65,11 @@ document.getElementById("forms").addEventListener("submit", function(event) {
         if (isNaN(bdate.getTime()) || age < 18) 
         {
             displayMessage("birth_date", "You must be over 18 to have an account", true); 
+            isValid = false;
         } 
         /*else 
         {
-            displayMessage("birth_date", "Correct", false);
+            displayMessage("birth_date", "", false);
             
         } */
 
@@ -80,7 +81,7 @@ document.getElementById("forms").addEventListener("submit", function(event) {
     } 
     /*else 
     {
-        displayMessage("password", "Correct", false);
+        displayMessage("password", "", false);
     }*/
 
     if (!isValid) 
@@ -94,9 +95,4 @@ document.getElementById("forms").addEventListener("submit", function(event) {
 
   
 });
-
-
-
-
-
 
