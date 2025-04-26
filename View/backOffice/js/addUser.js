@@ -159,7 +159,7 @@ document.getElementById("forms").addEventListener("submit", function(event) {
     
     var isValid = true;
 
-    // Fonction pour afficher les messages d'erreur ou de succès
+
     function displayMessage(id, message, isError) 
     {
         var element = document.getElementById(id + "_error");

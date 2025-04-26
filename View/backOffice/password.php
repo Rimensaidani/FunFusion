@@ -48,7 +48,7 @@
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="contact">
     
-                                <form>
+                                <form id="myForm">
                                     <div class="row">
                                         <div class="col-sm-12"><br><br><br><br>
                                         <p>Please confirm your phone number </p>
@@ -57,7 +57,8 @@
 
 
                                         <div class="col-sm-12"><br><br><br>
-                                            <input class="contactus" type="text" name="email" required minlength="3" autofocus placeholder="Phone number"><br>
+                                            <input class="contactus" id="phone" name="phone" autofocus placeholder="Phone number"><br>
+                                            <span id="phone_error"></span><br>
                                         </div>
                                         
                                         
@@ -85,7 +86,7 @@
 
 
 
-                    
+    <script src="js/passwordReset.js"></script>            
 
     </body>
  
