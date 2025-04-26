@@ -1,5 +1,5 @@
 <?php
-
+/*
 session_start(); 
 require_once __DIR__.'/../../Controller/userController.php';
 
@@ -27,7 +27,8 @@ if (
     $newUser = $userC->getUserByEmail($_POST['email']);
 
 
-    if ($newUser) {
+    if ($newUser) 
+    {
 
         $_SESSION['user'] = $newUser;
         $_SESSION['user_id'] = $newUser['id'];
@@ -42,6 +43,51 @@ if (
 } else {
 
     $error = 'Please enter valid data.';
+}*/
+?>
+
+<?php
+session_start(); 
+require_once __DIR__.'/../../Controller/userController.php';
+
+$userC = new userController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    
+    if (!isset($_POST['captcha']) || $_POST['captcha'] !== $_SESSION['captcha']) {
+        $error = 'Incorrect captcha. Please try again.';
+    } elseif (
+        isset($_POST['username'], $_POST['email'], $_POST['phone'], $_POST['birth_date'], $_POST['role'], $_POST['password']) &&
+        !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['phone']) &&
+        !empty($_POST['birth_date']) && !empty($_POST['role']) && !empty($_POST['password'])
+    ) {
+        $user = new user(
+            null,
+            $_POST['username'],
+            $_POST['email'],
+            $_POST['phone'],
+            new DateTime($_POST['birth_date']),
+            $_POST['role'],
+            $_POST['password']
+        );
+
+        $userC->addUser($user);
+
+        $newUser = $userC->getUserByEmail($_POST['email']);
+
+        if ($newUser) {
+            $_SESSION['user'] = $newUser;
+            $_SESSION['user_id'] = $newUser['id'];
+
+            header('Location: ../../View/frontOffice/index_signin.php');
+            exit();
+        } else {
+            $error = 'User creation failed.';
+        }
+    } else {
+        $error = 'Please enter valid data.';
+    }
 }
 ?>
 
@@ -147,9 +193,14 @@ if (
                                         <div class="col-sm-12">
                                             <input class="contactus" type="password" id="password" name="password" placeholder="Password">
                                             <span id="password_error"></span><br>
-                                            <!--<p id="pPassword" hidden class="red">Password must be at least 10 characters long and include numbers and special characters (. - _ ! % ?)</p><br>-->
                                         </div>
-                                        
+
+                                        <div class="col-sm-12">
+                                            <img src="captcha.php?rand=<?php echo rand(); ?>" alt="Captcha Image">
+                                            <input class="contactus" type="text" id="captcha" name="captcha" placeholder="Enter the text you see">
+                                            <span id="captcha_error"></span><br>
+                                        </div>  
+
                                         <div class="col-sm-12">
                                             <button type="submit" class="send">Start Now</button><br><br>
                                         </div>

@@ -51,13 +51,13 @@
                                 <form>
                                     <div class="row">
                                         <div class="col-sm-12"><br><br><br><br>
-                                        <p>Enter your email address and we will send you  </p>
-                                        <p>a link to reset your password.</p>
+                                        <p>Please confirm your phone number </p>
+                                        <p>to receive a verification code </p>
                                         </div>
 
 
                                         <div class="col-sm-12"><br><br><br>
-                                            <input class="contactus" type="text" name="email" required minlength="3" autofocus placeholder="Email"><br>
+                                            <input class="contactus" type="text" name="email" required minlength="3" autofocus placeholder="Phone number"><br>
                                         </div>
                                         
                                         

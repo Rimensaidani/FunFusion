@@ -155,6 +155,7 @@ document.getElementById("forms").addEventListener("submit", function(event) {
     var phone = document.getElementById("phone").value;
     var birthDate = document.getElementById("birth_date").value;
     var password = document.getElementById("password").value;
+    var captcha = document.getElementById("captcha").value;
     
     var isValid = true;
 
@@ -234,14 +235,22 @@ document.getElementById("forms").addEventListener("submit", function(event) {
     }
 
 
+    // captcha
+    if (captcha.length === 0) 
+    {
+        displayMessage("captcha", "Please enter the captcha code", true);
+        isValid = false;
+    } 
+    else 
+    {
+        displayMessage("captcha", "", false);
+    }
+    
+
     if (!isValid) 
     {
         event.preventDefault();
         alert("Submission failed. Ensure all required fields are valid.");
-    }
-    else
-    {
-        alert("Your account has been created successfully!");
     }
 
   
