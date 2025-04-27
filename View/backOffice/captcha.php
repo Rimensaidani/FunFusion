@@ -1,40 +1,4 @@
-<?php
-/*
-session_start();
 
-// Set headers
-header('Content-Type: image/png');
-
-// Create image
-$image = imagecreatetruecolor(120, 40);
-
-// Colors
-$bgColor = imagecolorallocate($image, 255, 255, 255); // white
-$textColor = imagecolorallocate($image, 0, 0, 0); // black
-
-// Fill background
-imagefilledrectangle($image, 0, 0, 120, 40, $bgColor);
-
-// Generate random captcha code
-$captchaCode = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 0, 6);
-$_SESSION['captcha'] = $captchaCode; // Save to session
-
-// Add text to image
-$font = __DIR__.'/arial.ttf'; // Make sure you have this font OR use built-in fonts
-if (file_exists($font)) {
-    imagettftext($image, 20, 0, 10, 30, $textColor, $font, $captchaCode);
-} else {
-    // fallback to imagestring if no TTF font
-    imagestring($image, 5, 20, 10, $captchaCode, $textColor);
-}
-
-// Output the image
-imagepng($image);
-imagedestroy($image);
-*/
-?>
-
-?>
 <?php
 
 ob_clean();         

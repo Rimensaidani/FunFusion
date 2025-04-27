@@ -1,17 +1,6 @@
-<?php
-/*require_once 'userController.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $controller = new userController();
-    $id = (int) $_POST['id'];
-    $controller->deleteUserDash($id);
-}
-
-header('Location: ../View/backOffice/dashboard/index.php');
-exit;*/
-?>
 <?php
-session_start();  // Start the session at the top
+session_start(); 
 require_once 'userController.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {

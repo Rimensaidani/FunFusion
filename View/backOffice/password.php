@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!-- site metas -->
-        <title>Sign in |FunFusion</title>
+        <title>Reset Password |FunFusion</title>
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -48,7 +48,7 @@
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="contact">
     
-                                <form id="myForm">
+                                <form id="myForm" method="post" action="../../Controller/passwordController.php?action=verifyPhone">
                                     <div class="row">
                                         <div class="col-sm-12"><br><br><br><br>
                                         <p>Please confirm your phone number </p>
@@ -63,11 +63,9 @@
                                         
                                         
                                         <div class="col-sm-12"><br>
-                                            <button class="send">Reset Password</button><br><br><br><br><br>
+                                            <button class="send" type="submit">Verify</button><br><br><br><br><br>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <u><a href="addUser.php">Need an account? Sign up!</a></u>
-                                        </div>
+                                        
 
                                     </div>
                                 </form>
@@ -86,7 +84,7 @@
 
 
 
-    <script src="js/passwordReset.js"></script>            
+    <script src="js/phoneConfirmation"></script>            
 
     </body>
  

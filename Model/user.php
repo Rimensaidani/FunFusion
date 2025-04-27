@@ -62,6 +62,34 @@ class User
         }
     }
 
+
+    public static function updatePasswordByPhone($phone, $password)
+    {
+        $db = config::getConnexion();
+        try {
+            $query = $db->prepare("UPDATE user SET password = :password WHERE phone = :phone");
+            $query->bindParam(':password', $password);
+            $query->bindParam(':phone', $phone);
+            return $query->execute();
+        } 
+        catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    
+
+
+public static function getUserByPhone($phone)
+{
+    $db = config::getConnexion();// or however you connect to database
+    $query = $db->prepare("SELECT * FROM user WHERE phone = :phone"); 
+    $query->bindParam(':phone', $phone);
+    $query->execute();
+    return $query->fetch(PDO::FETCH_ASSOC); // returns the user info
+}
+
+
     
 
     

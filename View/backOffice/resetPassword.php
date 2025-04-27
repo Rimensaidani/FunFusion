@@ -5,34 +5,33 @@ require_once '../../config.php';
 require_once '../../Controller/userController.php';
 
 $error = '';
+$successMessage = '';
 
-if (isset($_POST['signin'])) {
-    $username = $_POST['username'];
+
+if (!isset($_SESSION['reset_phone'])) 
+{
+    header('Location: signIn.php');
+    exit;
+}
+
+if (isset($_POST['reset_password'])) {
+    $phone = $_POST['phone']; 
     $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
 
-    $controller = new userController();
-    $user = $controller->getUserByUsername($username);
-
-    
-    if ($user && $user['password'] === $password) {
-    
-        $_SESSION['user']    = $user;
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role']    = $user['role'];  
-
+    if ($password === $confirm_password) {
+        $controller = new userController();
         
-        if ($user['role'] === 'admin') {
-            header('Location:../../View/backOffice/dashboard/index.php');
-        } else {
-            header('Location:../../View/frontOffice/index_signin.php');
-        }
-        exit;
-    } else {
-        $error = "Nom d'utilisateur ou mot de passe incorrect.";
-    }
+        if (User::updatePasswordByPhone($phone, $password)) 
+        {
+
+            header('Location: signIn.php');
+            exit;
+        } 
+
+}
 }
 ?>
-
 
 
 
@@ -46,7 +45,7 @@ if (isset($_POST['signin'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!-- site metas -->
-        <title>Sign in | FunFusion</title>
+        <title>Reset Password |FunFusion</title>
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -76,7 +75,7 @@ if (isset($_POST['signin'])) {
                 <div class="row">
                     <div class="col-md-12">
                         <div class="titlepage">
-                            <h3>Sign In</h3>
+                            <h3>Password Recovery</h3>
                         </div>
                     </div>
                 </div>
@@ -86,28 +85,32 @@ if (isset($_POST['signin'])) {
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="contact">
     
-                                <form method="post" action="">
+                                <form id="myForm" method="post" action="">
                                     <div class="row">
-                                        
-                                        <div class="col-sm-12"><br><br><br><br><br>
-                                            <input class="contactus" type="text" name="username" required minlength="3" autofocus placeholder="Username"><br>
+                                        <div class="col-sm-12"><br>
+                                        <p>Please enter your new password</p>
+                                        <p>and click reset</p>
                                         </div>
-                                        
+
+                                            <input type="hidden" name="phone" value="<?php echo $_SESSION['reset_phone']; ?>">
+
+                                        <div class="col-sm-12"><br><br><br>
+                                            <label for="password">New Password:</label><br>
+                                            <input type="password" class="contactus" id="password" name="password" placeholder="New Password"><br>
+                                            <span id="password_error"></span>
+                                        </div>
+
                                         <div class="col-sm-12">
-                                            <input class="contactus" type="password" name="password" required placeholder="Password"><br>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <u><a href="password.php">Forgot password?</a></u>
-                                        </div>
-                                        
-                                        
-                                        <div class="col-sm-12"><br><br>
-                                            <button name="signin" class="send">Sign in</button><br><br><br><br><br>
+                                            <label for="confirm_password">Confirm Password:</label><br>
+                                            <input type="password" class="contactus" id="confirm_password" name="confirm_password" placeholder="Confirm Password"><br>
+                                            <span id="confirm_password_error"></span><br>
                                         </div>
                                         
-                                        <div class="col-sm-12">
-                                            <u><a href="addUser.php">Need an account? Sign up!</a></u>
+                                        
+                                        <div class="col-sm-12"><br>
+                                            <button name="reset_password" class="send" type="submit">Verify</button><br><br><br><br><br>
                                         </div>
+                                        
 
                                     </div>
                                 </form>
@@ -122,12 +125,9 @@ if (isset($_POST['signin'])) {
                 </div>
             </div>
         </div>
-
-
-
-
-                    
+         
 
     </body>
+    <script src="js/newPaasword.js"></script>
  
 </html>
