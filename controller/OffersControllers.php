@@ -62,4 +62,18 @@ class OffresController {
             echo 'Erreur : ' . $e->getMessage();
             return false;
         }
-    }}
+    }
+        public function searchOffres($searchTerm) {
+            try {
+                $pdo = config::getConnexion();
+                $stmt = $pdo->prepare("SELECT * FROM offres WHERE id_offre LIKE ? OR type LIKE ?");
+                $searchTerm = "%" . $searchTerm . "%";
+                $stmt->execute([$searchTerm, $searchTerm]);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                echo 'Erreur : ' . $e->getMessage();
+                return [];
+            }
+        }
+    }
+    

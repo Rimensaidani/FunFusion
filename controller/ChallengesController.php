@@ -42,7 +42,6 @@ class ChallengesController {
             return false;
         }
     }
-<<<<<<< HEAD
     public function modifierChallenge($id, $title, $type, $creation_date, $score) {
         try {
             $pdo = config::getConnexion();
@@ -54,10 +53,76 @@ class ChallengesController {
             return false;
         }
     }
+
+ 
+    public function searchChallenges($searchTerm) {
+    try {
+        $pdo = config::getConnexion();
+        $stmt = $pdo->prepare("SELECT * FROM challenges WHERE id_defi LIKE ? OR title LIKE ?");
+        $searchTerm = "%" . $searchTerm . "%";
+        $stmt->execute([$searchTerm, $searchTerm]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo 'Erreur : ' . $e->getMessage();
+        return [];
+    }
 }
 
-
-=======
+// Replace the existing getChallengeOfferStats method in ChallengesController with this
+public function getChallengeOfferStats() {
+    try {
+        $pdo = config::getConnexion();
+        
+        // Get all challenges
+        $challengesStmt = $pdo->query("SELECT id_defi, title FROM challenges");
+        $challenges = $challengesStmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $stats = [];
+        foreach ($challenges as $challenge) {
+            $id_defi = $challenge['id_defi'];
+            
+            // Get total offers for this challenge
+            $totalStmt = $pdo->prepare("SELECT COUNT(*) as total FROM offres WHERE id_defi = ?");
+            $totalStmt->execute([$id_defi]);
+            $totalOffersForChallenge = $totalStmt->fetch(PDO::FETCH_ASSOC)['total'];
+            
+            $challengeStats = [
+                'id_defi' => $id_defi,
+                'title' => $challenge['title'],
+                'total_offers' => $totalOffersForChallenge,
+                'offer_types' => []
+            ];
+            
+            if ($totalOffersForChallenge > 0) {
+                // Get breakdown of offer types for this challenge
+                $stmt = $pdo->prepare("
+                    SELECT type, COUNT(*) as count
+                    FROM offres
+                    WHERE id_defi = ?
+                    GROUP BY type
+                ");
+                $stmt->execute([$id_defi]);
+                $offerTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Calculate percentages for each offer type
+                foreach ($offerTypes as $offer) {
+                    $percentage = ($offer['count'] / $totalOffersForChallenge) * 100;
+                    $challengeStats['offer_types'][] = [
+                        'type' => $offer['type'],
+                        'count' => $offer['count'],
+                        'percentage' => $percentage
+                    ];
+                }
+            }
+            
+            $stats[] = $challengeStats;
+        }
+        
+        return $stats;
+    } catch (PDOException $e) {
+        echo 'Erreur : ' . $e->getMessage();
+        return [];
+    }
 }
->>>>>>> b7eeaa49221d74decf66b23262e6792e3fc08798
+}
 ?>

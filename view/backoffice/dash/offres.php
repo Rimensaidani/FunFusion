@@ -1,7 +1,23 @@
 <?php
 class OffresController {
+    private function getChallengeScore($id_defi) {
+        try {
+            $pdo = config::getConnexion();
+            $stmt = $pdo->prepare("SELECT score FROM challenges WHERE id_defi = ?");
+            $stmt->execute([$id_defi]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? (int)$result['score'] : 0;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return 0;
+        }
+    }
+
     public function ajouterOffres($type, $date_expiration, $id_defi, $etat) {
         try {
+            $score = $this->getChallengeScore($id_defi);
+            $etat = ($score > 500) ? 'debloque' : 'bloque';
+
             $pdo = config::getConnexion();
             $stmt = $pdo->prepare("INSERT INTO offres (type, date_expiration, id_defi, etat) VALUES (?, ?, ?, ?)");
             $stmt->execute([$type, $date_expiration, $id_defi, $etat]);
@@ -15,8 +31,20 @@ class OffresController {
     public function afficherOffres() {
         try {
             $pdo = config::getConnexion();
-            $stmt = $pdo->query("SELECT * FROM offres");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $pdo->query("SELECT o.*, c.score 
+                                 FROM offres o 
+                                 LEFT JOIN challenges c ON o.id_defi = c.id_defi");
+            $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($offres as &$offre) {
+                $score = (int)($offre['score'] ?? 0);
+                $offre['etat'] = ($score > 500) ? 'debloque' : 'bloque';
+
+                $stmt_update = $pdo->prepare("UPDATE offres SET etat = ? WHERE id_offre = ?");
+                $stmt_update->execute([$offre['etat'], $offre['id_offre']]);
+            }
+
+            return $offres;
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return [];
@@ -26,7 +54,7 @@ class OffresController {
     public function afficherDefis() {
         try {
             $pdo = config::getConnexion();
-            $stmt = $pdo->query("SELECT id_defi FROM challenges");
+            $stmt = $pdo->query("SELECT id_defi, title FROM challenges");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
@@ -48,6 +76,9 @@ class OffresController {
 
     public function modifierOffres($id_offre, $type, $date_expiration, $id_defi, $etat) {
         try {
+            $score = $this->getChallengeScore($id_defi);
+            $etat = ($score > 500) ? 'debloque' : 'bloque';
+
             $pdo = config::getConnexion();
             $stmt = $pdo->prepare("UPDATE offres SET type = ?, date_expiration = ?, id_defi = ?, etat = ? WHERE id_offre = ?");
             $stmt->execute([$type, $date_expiration, $id_defi, $etat, $id_offre]);
@@ -57,12 +88,46 @@ class OffresController {
             return false;
         }
     }
+
+    public function searchOffres($searchTerm) {
+        try {
+            $pdo = config::getConnexion();
+            $stmt = $pdo->prepare("SELECT o.*, c.score 
+                                   FROM offres o 
+                                   LEFT JOIN challenges c ON o.id_defi = c.id_defi 
+                                   WHERE o.id_offre LIKE ? OR o.type LIKE ?");
+            $searchTerm = "%" . $searchTerm . "%";
+            $stmt->execute([$searchTerm, $searchTerm]);
+            $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($offres as &$offre) {
+                $score = (int)($offre['score'] ?? 0);
+                $offre['etat'] = ($score > 500) ? 'debloque' : 'bloque';
+
+                $stmt_update = $pdo->prepare("UPDATE offres SET etat = ? WHERE id_offre = ?");
+                $stmt_update->execute([$offre['etat'], $offre['id_offre']]);
+            }
+
+            return $offres;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return [];
+        }
+    }
 }
 
 include 'C:\xamppp\htdocs\FunFusion\config.php';
 $controller = new OffresController();
 $message = "";
 $listeDefis = $controller->afficherDefis();
+
+// Handle search
+$searchTerm = isset($_POST['search']) ? trim($_POST['search']) : '';
+if (!empty($searchTerm)) {
+    $listeOffres = $controller->searchOffres($searchTerm);
+} else {
+    $listeOffres = $controller->afficherOffres();
+}
 
 if (isset($_POST['ajouter'])) {
     $type = $_POST['type'];
@@ -103,7 +168,6 @@ if (isset($_POST['modifier'])) {
     }
 }
 
-$listeOffres = $controller->afficherOffres();
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
@@ -309,10 +373,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
             <i class="fas fa-bars"></i>
         </button>
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="post" action="">
             <div class="input-group">
-                <input class="form-control bg-dark text-white border-dark" type="text" placeholder="Search..." aria-label="Search" />
-                <button class="btn btn-primary" type="button">
+                <input class="form-control bg-dark text-white border-dark" type="text" name="search" placeholder="Search by ID or Type..." aria-label="Search" value="<?= htmlspecialchars($searchTerm) ?>" />
+                <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -431,7 +495,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                                 <select class="form-input" name="id_defi" disabled>
                                                     <?php foreach ($listeDefis as $defi): ?>
                                                         <option value="<?= $defi['id_defi'] ?>" <?= $offre['id_defi'] == $defi['id_defi'] ? 'selected' : '' ?>>
-                                                            Défi ID: <?= $defi['id_defi'] ?>
+                                                            ID: <?= $defi['id_defi'] ?> - <?= htmlspecialchars($defi['title']) ?>
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
@@ -484,7 +548,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                                 <select class="form-input" name="id_defi" id="add-defi">
                                                     <?php foreach ($listeDefis as $defi): ?>
                                                         <option value="<?= $defi['id_defi'] ?>">
-                                                            Défi ID: <?= $defi['id_defi'] ?>
+                                                            ID: <?= $defi['id_defi'] ?> - <?= htmlspecialchars($defi['title']) ?>
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
@@ -513,12 +577,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <footer class="py-4 bg-dark mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; FunFusion 2025</div>
+                        <div class="text-muted">Copyright © FunFusion 2025</div>
                         <div>
                             <a href="#" class="text-decoration-none text-light">Privacy</a>
-                            &middot;
+                            ·
                             <a href="#" class="text-decoration-none text-light">Terms</a>
-                            &middot;
+                            ·
                             <a href="#" class="text-decoration-none text-light">Contact</a>
                         </div>
                     </div>

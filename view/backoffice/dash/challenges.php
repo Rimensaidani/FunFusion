@@ -46,11 +46,94 @@ class ChallengesController {
             return false;
         }
     }
+
+    public function searchChallenges($searchTerm) {
+        try {
+            $pdo = config::getConnexion();
+            $stmt = $pdo->prepare("SELECT * FROM challenges WHERE id_defi LIKE ? OR title LIKE ?");
+            $searchTerm = "%" . $searchTerm . "%";
+            $stmt->execute([$searchTerm, $searchTerm]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    public function getChallengeOfferStats() {
+        try {
+            $pdo = config::getConnexion();
+            
+            // Get all challenges
+            $challengesStmt = $pdo->query("SELECT id_defi, title FROM challenges");
+            $challenges = $challengesStmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $stats = [];
+            foreach ($challenges as $challenge) {
+                $id_defi = $challenge['id_defi'];
+                
+                // Get total offers for this challenge
+                $totalStmt = $pdo->prepare("SELECT COUNT(*) as total FROM offres WHERE id_defi = ?");
+                $totalStmt->execute([$id_defi]);
+                $totalOffersForChallenge = $totalStmt->fetch(PDO::FETCH_ASSOC)['total'];
+                
+                $challengeStats = [
+                    'id_defi' => $id_defi,
+                    'title' => $challenge['title'],
+                    'total_offers' => $totalOffersForChallenge,
+                    'offer_types' => []
+                ];
+                
+                if ($totalOffersForChallenge > 0) {
+                    // Get breakdown of offer types for this challenge
+                    $stmt = $pdo->prepare("
+                        SELECT type, COUNT(*) as count
+                        FROM offres
+                        WHERE id_defi = ?
+                        GROUP BY type
+                    ");
+                    $stmt->execute([$id_defi]);
+                    $offerTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    // Calculate percentages for each offer type
+                    foreach ($offerTypes as $offer) {
+                        $percentage = ($offer['count'] / $totalOffersForChallenge) * 100;
+                        $challengeStats['offer_types'][] = [
+                            'type' => $offer['type'],
+                            'count' => $offer['count'],
+                            'percentage' => $percentage
+                        ];
+                    }
+                }
+                
+                $stats[] = $challengeStats;
+            }
+            
+            return $stats;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return [];
+        }
+    }
 }
 
 include 'C:\xamppp\htdocs\FunFusion\config.php';
 $controller = new ChallengesController();
 $message = "";
+
+// Handle search
+$searchTerm = isset($_POST['search']) ? trim($_POST['search']) : '';
+if (!empty($searchTerm)) {
+    $listeChallenges = $controller->searchChallenges($searchTerm);
+} else {
+    $listeChallenges = $controller->afficherChallenges();
+}
+
+// Fetch statistics data
+$challengeStats = $controller->getChallengeOfferStats();
+
+// Debugging: Log the challengeStats to check the data
+error_log("Challenge Stats: " . print_r($challengeStats, true));
 
 if (isset($_POST['ajouter'])) {
     $title = $_POST['title'];
@@ -91,7 +174,6 @@ if (isset($_POST['modifier'])) {
     }
 }
 
-$listeChallenges = $controller->afficherChallenges();
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
@@ -107,6 +189,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --primary-dark: #0f0e17;
@@ -227,6 +310,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
             color: white;
         }
         
+        .btn-info {
+            background: linear-gradient(135deg, var(--info), #74b9ff);
+            color: white;
+            padding: 10px 20px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+        
         .alert {
             padding: 15px;
             border-radius: 5px;
@@ -295,10 +388,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
             <i class="fas fa-bars"></i>
         </button>
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="post" action="">
             <div class="input-group">
-                <input class="form-control bg-dark text-white border-dark" type="text" placeholder="Search..." aria-label="Search" />
-                <button class="btn btn-primary" type="button">
+                <input class="form-control bg-dark text-white border-dark" type="text" name="search" placeholder="Search by ID or Title..." aria-label="Search" value="<?= htmlspecialchars($searchTerm) ?>" />
+                <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -374,10 +467,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <li class="breadcrumb-item active">Challenges</li>
                     </ol>
                     
-
-                     <?= $message ?>
+                    <?= $message ?>
                     
-
                     <div class="card gaming-card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i> Challenges Management
@@ -462,7 +553,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                                 <div class="error-message" id="date-error"></div>
                                             </td>
                                             <td class="error-container">
-                                                <input type="number" class="form-input" name="score" id="add-score"  min="51">
+                                                <input type="number" class="form-input" name="score" id="add-score" min="51">
                                                 <div class="error-message" id="score-error"></div>
                                             </td>
                                             <td>
@@ -474,6 +565,45 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                     </tr>
                                 </tbody>
                             </table>
+
+                            <!-- Statistics Section -->
+                            <div class="mt-4 text-center">
+                                <button type="button" class="btn-action btn-info" id="toggleStatsBtn">
+                                    <i class="fas fa-chart-pie me-1"></i> Show Statistics
+                                </button>
+                            </div>
+
+                            <div id="statsSection" class="mt-4" style="display: none;">
+                                <h3 class="text-center mb-4">Offer Types per Challenge Statistics</h3>
+                                <?php if (empty($challengeStats)): ?>
+                                    <p class="text-center">No challenges available to display statistics.</p>
+                                <?php else: ?>
+                                    <div class="row justify-content-center">
+                                        <?php foreach ($challengeStats as $stat): ?>
+                                            <div class="col-md-4 mb-4">
+                                                <div class="gaming-card p-3">
+                                                    <h5 class="text-center"><?= htmlspecialchars($stat['title']) ?> (ID: DF<?= str_pad($stat['id_defi'], 3, '0', STR_PAD_LEFT) ?>)</h5>
+                                                    <?php if ($stat['total_offers'] == 0): ?>
+                                                        <p class="text-center">No offers for this challenge.</p>
+                                                    <?php else: ?>
+                                                        <canvas id="chart-<?= $stat['id_defi'] ?>" height="200"></canvas>
+                                                        <div class="text-center mt-2">
+                                                            <p>Total Offers: <?= $stat['total_offers'] ?></p>
+                                                            <ul class="list-unstyled">
+                                                                <?php foreach ($stat['offer_types'] as $offer): ?>
+                                                                    <li>
+                                                                        <?= htmlspecialchars(ucfirst($offer['type'])) ?>: <?= $offer['count'] ?> (<?= round($offer['percentage'], 2) ?>%)
+                                                                    </li>
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -481,12 +611,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <footer class="py-4 bg-dark mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; FunFusion 2025</div>
+                        <div class="text-muted">Copyright © FunFusion 2025</div>
                         <div>
                             <a href="#" class="text-decoration-none text-light">Privacy</a>
-                            &middot;
+                            ·
                             <a href="#" class="text-decoration-none text-light">Terms</a>
-                            &middot;
+                            ·
                             <a href="#" class="text-decoration-none text-light">Contact</a>
                         </div>
                     </div>
@@ -519,6 +649,106 @@ $current_page = basename($_SERVER['PHP_SELF']);
             document.getElementById('add-date').addEventListener('change', function() {
                 validateDate(this, 'date-error');
             });
+
+            // Toggle statistics section
+            const toggleStatsBtn = document.getElementById('toggleStatsBtn');
+            const statsSection = document.getElementById('statsSection');
+
+            if (toggleStatsBtn && statsSection) {
+                toggleStatsBtn.addEventListener('click', function() {
+                    console.log('Toggle Stats button clicked'); // Debugging
+                    if (statsSection.style.display === 'none' || statsSection.style.display === '') {
+                        statsSection.style.display = 'block';
+                        this.innerHTML = '<i class="fas fa-chart-pie me-1"></i> Hide Statistics';
+                        
+                        // Check if Chart.js is loaded
+                        if (typeof Chart === 'undefined') {
+                            console.error('Chart.js not loaded');
+                            statsSection.innerHTML = '<p class="text-center">Error: Unable to load charts. Please ensure Chart.js is loaded.</p>';
+                            return;
+                        }
+
+                        // Define colors for each offer type
+                        const offerTypeColors = {
+                            'réduction': {
+                                background: 'rgba(0, 212, 255, 0.7)', // Electric Blue
+                                border: 'rgba(0, 212, 255, 1)'
+                            },
+                            'bonus': {
+                                background: 'rgba(106, 17, 203, 0.5)', // Gaming Purple
+                                border: 'rgba(106, 17, 203, 1)'
+                            },
+                            'accès': {
+                                background: 'rgba(255, 0, 170, 0.7)', // Neon Pink
+                                border: 'rgba(255, 0, 170, 1)'
+                            },
+                            'code_promo': {
+                                background: 'rgba(0, 184, 148, 0.7)', // Success Green
+                                border: 'rgba(0, 184, 148, 1)'
+                            }
+                        };
+
+                        // Initialize charts
+                        <?php foreach ($challengeStats as $stat): ?>
+                            <?php if ($stat['total_offers'] > 0): ?>
+                                try {
+                                    const ctx_<?= $stat['id_defi'] ?> = document.getElementById('chart-<?= $stat['id_defi'] ?>');
+                                    if (ctx_<?= $stat['id_defi'] ?>) {
+                                        new Chart(ctx_<?= $stat['id_defi'] ?>, {
+                                            type: 'pie',
+                                            data: {
+                                                labels: [
+                                                    <?php foreach ($stat['offer_types'] as $offer): ?>
+                                                        '<?= ucfirst($offer['type']) ?>',
+                                                    <?php endforeach; ?>
+                                                ],
+                                                datasets: [{
+                                                    data: [
+                                                        <?php foreach ($stat['offer_types'] as $offer): ?>
+                                                            <?= $offer['percentage'] ?>,
+                                                        <?php endforeach; ?>
+                                                    ],
+                                                    backgroundColor: [
+                                                        <?php foreach ($stat['offer_types'] as $offer): ?>
+                                                            offerTypeColors['<?= $offer['type'] ?>']?.background || 'rgba(128, 128, 128, 0.7)',
+                                                        <?php endforeach; ?>
+                                                    ],
+                                                    borderColor: [
+                                                        <?php foreach ($stat['offer_types'] as $offer): ?>
+                                                            offerTypeColors['<?= $offer['type'] ?>']?.border || 'rgba(128, 128, 128, 1)',
+                                                        <?php endforeach; ?>
+                                                    ],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                plugins: {
+                                                    legend: {
+                                                        position: 'bottom',
+                                                        labels: {
+                                                            color: 'white'
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        console.error('Canvas element not found for chart-<?= $stat['id_defi'] ?>');
+                                    }
+                                } catch (error) {
+                                    console.error('Error initializing chart for challenge <?= $stat['id_defi'] ?>:', error);
+                                }
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    } else {
+                        statsSection.style.display = 'none';
+                        this.innerHTML = '<i class="fas fa-chart-pie me-1"></i> Show Statistics';
+                    }
+                });
+            } else {
+                console.error('Toggle Stats button or Stats Section not found');
+            }
         });
         
         // Fonctions de validation pour l'ajout
@@ -559,16 +789,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
         }
         
         function validateScore(field, errorId) {
-    if (parseInt(field.value) < 51 || isNaN(field.value)) {
-        showError(errorId, 'La valeur doit être supérieure ou égale à 51');
-        field.classList.add('error-field');
-        return false;
-    } else {
-        clearError(errorId);
-        field.classList.remove('error-field');
-        return true;
-    }
-}
+            if (parseInt(field.value) < 51 || isNaN(field.value)) {
+                showError(errorId, 'La valeur doit être supérieure ou égale à 51');
+                field.classList.add('error-field');
+                return false;
+            } else {
+                clearError(errorId);
+                field.classList.remove('error-field');
+                return true;
+            }
+        }
         
         function validateDate(field, errorId) {
             if (!field.value) {
