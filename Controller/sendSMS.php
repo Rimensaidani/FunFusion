@@ -5,7 +5,7 @@ use Twilio\Rest\Client;
 
 function sendSMS($phone, $message)
 {
-    $sid = 'TWILIO_SID';
+    $sid = 'My SID';
     $token = '9cd712fea8d8d3455a17b5c3024e27e6';
     $client = new Client($sid, $token);
 

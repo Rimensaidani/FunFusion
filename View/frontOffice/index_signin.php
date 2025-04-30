@@ -106,7 +106,7 @@
                                     <p data-aos="fade-right" data-aos-delay="700">the perfect platform to connect with people who share your interests, <br>whether for outdoor activities or virtual experiences.
                                     </p>
                                     <a data-aos="fade-right" data-aos-delay="900" href="#" class="btn btn-primary">See More</a>
-                                    <a data-aos="fade-right" data-aos-delay="900" href="../backOffice/addUser.html" class="btn btn-primary">sign up</a>
+                                    <!--<a data-aos="fade-right" data-aos-delay="900" href="../backOffice/addUser.html" class="btn btn-primary">sign up</a>-->
                                 </div>
                             </div>
                             <div class="swiper-slide slide-content d-flex align-items-center">
@@ -116,7 +116,7 @@
                                     <p data-aos="fade-right" data-aos-delay="600">FunFusion makes it easy to plan activities that match your preferences,<br> both online and in real life! 
                                     </p>
                                     <a data-aos="fade-right" data-aos-delay="900" href="#" class="btn btn-primary">See More</a>
-                                    <a data-aos="fade-right" data-aos-delay="900" href="../backOffice/signIn.html" class="btn btn-primary">sign in</a>
+                                    <!--<a data-aos="fade-right" data-aos-delay="900" href="../backOffice/signIn.html" class="btn btn-primary">sign in</a>-->
                                 </div>
                             </div>
                         </div>

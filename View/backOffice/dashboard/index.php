@@ -316,7 +316,11 @@ $users = $userController->getAllUsers();
                         </a>
                         <a class="nav-link" href="achievements.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
-                            rimene
+                            Challenges
+                        </a>
+                        <a class="nav-link" href="achievements.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
+                            Offers
                         </a>
                         <a class="nav-link" href="achievements.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
@@ -324,7 +328,7 @@ $users = $userController->getAllUsers();
                         </a>
                         <a class="nav-link" href="achievements.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
-                            amine
+                            Forums
                         </a>
                         <!--<div class="sb-sidenav-menu-heading">COMMUNITY</div>
                         <a class="nav-link" href="streams.html">

@@ -17,7 +17,8 @@ switch ($action) {
 
 function checkCode()
 {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['code'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['code'])) 
+    {
         $enteredCode = $_POST['code'];
 
         if (isset($_SESSION['verification_code']) && $enteredCode == $_SESSION['verification_code']) {

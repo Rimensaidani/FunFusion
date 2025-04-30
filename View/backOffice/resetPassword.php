@@ -75,7 +75,7 @@ if (isset($_POST['reset_password'])) {
                 <div class="row">
                     <div class="col-md-12">
                         <div class="titlepage">
-                            <h3>Password Recovery</h3>
+                            <h3>New Password</h3>
                         </div>
                     </div>
                 </div>
