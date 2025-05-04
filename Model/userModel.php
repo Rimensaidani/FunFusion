@@ -53,5 +53,28 @@ class UserModel
 }
 
 
+//statstics
+public function getUserCountByAgeRange() 
+{
+    $db = config::getConnexion();
+    $sql = "
+        SELECT 
+          CASE 
+            WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 18 AND 24 THEN '18–24'
+            WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 25 AND 34 THEN '25–34'
+            WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 35 AND 44 THEN '35–44'
+            WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 45 AND 54 THEN '45–54'
+            ELSE '55+' 
+          END AS age_range,
+          COUNT(*) AS user_count
+        FROM user
+        GROUP BY age_range
+        ORDER BY age_range;
+    ";
+    $query = $db->prepare($sql);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

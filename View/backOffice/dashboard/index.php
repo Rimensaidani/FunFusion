@@ -9,6 +9,13 @@ $users = $userController->getAllUsers();
 
 ?>
 
+<?php
+require_once '../../../Model/userModel.php'; 
+$userModel = new UserModel();
+$ageStats = $userModel->getUserCountByAgeRange();
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,6 +29,8 @@ $users = $userController->getAllUsers();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
             --primary-dark: #0f0e17;
@@ -500,7 +509,53 @@ $users = $userController->getAllUsers();
                              </tr>
                             <?php endforeach; ?>
                             </tbody>
-                            </table>
+                            </table><br>
+                            <h2>User Distribution by Age Range</h2>
+                                <canvas id="ageChart" width="300" height="100"></canvas>
+                                        <script>
+                                        const ageLabels = <?= json_encode(array_column($ageStats, 'age_range')) ?>;
+                                        const ageCounts = <?= json_encode(array_column($ageStats, 'user_count')) ?>;
+                                        </script>
+                                        <script>
+                                        const ctx = document.getElementById('ageChart').getContext('2d');
+                                        const ageChart = new Chart(ctx, {
+                                        type: 'bar', 
+                                        data: {
+                                        labels: ageLabels,
+                                        datasets: [{
+                                            label: 'Number of Users',
+                                            data: ageCounts,
+                                            backgroundColor: [
+                                                '#4dc9f6',
+                                                '#B31B1B',
+                                                '#f53794',
+                                                '#537bc4',
+                                                '#9D00FF',
+                                                '#166a8f'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                         },
+                                         options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: {
+                                                display: false 
+                                                }
+                                            },
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true,
+                                                    ticks: {
+                                                    precision: 0
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                </script>
+
+                                
 
                         </div>
                     </div>

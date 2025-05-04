@@ -82,15 +82,16 @@ class User
 
 public static function getUserByPhone($phone)
 {
-    $db = config::getConnexion();// or however you connect to database
+    $db = config::getConnexion();
     $query = $db->prepare("SELECT * FROM user WHERE phone = :phone"); 
     $query->bindParam(':phone', $phone);
     $query->execute();
-    return $query->fetch(PDO::FETCH_ASSOC); // returns the user info
+    return $query->fetch(PDO::FETCH_ASSOC);
 }
 
 
-    
+
+
 
     
 
