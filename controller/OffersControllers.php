@@ -63,13 +63,27 @@ class OffresController {
             return false;
         }
     }
+
         public function searchOffres($searchTerm) {
             try {
                 $pdo = config::getConnexion();
-                $stmt = $pdo->prepare("SELECT * FROM offres WHERE id_offre LIKE ? OR type LIKE ?");
+                $stmt = $pdo->prepare("SELECT o.*, c.score 
+                                       FROM offres o 
+                                       LEFT JOIN challenges c ON o.id_defi = c.id_defi 
+                                       WHERE o.id_offre LIKE ? OR o.type LIKE ?");
                 $searchTerm = "%" . $searchTerm . "%";
                 $stmt->execute([$searchTerm, $searchTerm]);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+                foreach ($offres as &$offre) {
+                    $score = (int)($offre['score'] ?? 0);
+                    $offre['etat'] = ($score > 500) ? 'debloque' : 'bloque';
+    
+                    $stmt_update = $pdo->prepare("UPDATE offres SET etat = ? WHERE id_offre = ?");
+                    $stmt_update->execute([$offre['etat'], $offre['id_offre']]);
+                }
+    
+                return $offres;
             } catch (PDOException $e) {
                 echo 'Erreur : ' . $e->getMessage();
                 return [];

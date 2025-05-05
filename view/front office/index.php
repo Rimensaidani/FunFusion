@@ -22,11 +22,15 @@ $offres = $controller->getAllOffres();
 
 // Prepare offers for JavaScript and check for expiring offers
 $expiringOffers = [];
-$currentDate = new DateTime('2025-04-29'); // Current date as per your context
+$currentDate = new DateTime(); // Use dynamic current date
 $thresholdDate = (clone $currentDate)->modify('+1 day'); // Offers expiring within 24 hours
 
 $allOffersJs = [];
 $offerCounter = 1;
+
+// Debugging: Log the current date and threshold date
+error_log("Current Date: " . $currentDate->format('Y-m-d H:i:s'));
+error_log("Threshold Date: " . $thresholdDate->format('Y-m-d H:i:s'));
 
 foreach ($offres as $offre) {
     $type = htmlspecialchars($offre['type']);
@@ -67,17 +71,28 @@ foreach ($offres as $offre) {
 
     // Check if the offer is about to expire (within 24 hours)
     if ($dateExpiration !== 'No Expiration') {
-        $expirationDate = new DateTime($dateExpiration);
-        if ($expirationDate >= $currentDate && $expirationDate <= $thresholdDate) {
-            $expiringOffers[] = [
-                'type' => $type,
-                'date_expiration' => $dateExpiration
-            ];
+        try {
+            $expirationDate = new DateTime($dateExpiration);
+            // Debugging: Log each offer's expiration date
+            error_log("Offer: {$type}, Expiration Date: " . $expirationDate->format('Y-m-d H:i:s'));
+            // Include offers expiring today or tomorrow
+            if ($expirationDate >= $currentDate && $expirationDate <= $thresholdDate) {
+                $expiringOffers[] = [
+                    'type' => $type,
+                    'date_expiration' => $dateExpiration
+                ];
+            }
+        } catch (Exception $e) {
+            // Log any date parsing errors
+            error_log("Error parsing date for offer {$type}: " . $e->getMessage());
         }
     }
 
     $offerCounter++;
 }
+
+// Debugging: Log the expiring offers
+error_log("Expiring Offers: " . print_r($expiringOffers, true));
 
 // Convert offers to JSON for JavaScript
 $allOffersJson = json_encode($allOffersJs);
@@ -899,10 +914,17 @@ $expiringOffersJson = json_encode($expiringOffers);
             const notification = document.getElementById('expiration-notification');
             const offersList = document.getElementById('expiring-offers-list');
 
+            // Debugging: Log expiring offers to console
+            console.log('Expiring Offers:', expiringOffers);
+
             if (expiringOffers.length > 0) {
                 offersList.innerHTML = expiringOffers.map(offer => 
                     `<p>Offer "${offer.type}" expires on ${offer.date_expiration}!</p>`
                 ).join('');
+                notification.classList.add('show');
+            } else {
+                // Debugging: Show a notification even if no offers are expiring
+                offersList.innerHTML = '<p>No offers are expiring within the next 24 hours.</p>';
                 notification.classList.add('show');
             }
         }
