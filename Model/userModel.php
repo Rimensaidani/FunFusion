@@ -76,5 +76,44 @@ public function getUserCountByAgeRange()
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
+//password reset by email
+
+public static function emailExists($email)
+{
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare("SELECT * FROM user WHERE email = :email");
+        $query->bindParam(':email', $email);
+        $query->execute();
+        return $query->rowCount() > 0;
+    } catch (Exception $e) {
+        die('Error: ' . $e->getMessage());
+    }
+}
+
+
+public static function updatePasswordByEmail($email, $password)
+{
+    $db = config::getConnexion();
+    try {
+        $query = $db->prepare("UPDATE user SET password = :password WHERE email = :email");
+        $query->bindParam(':password', $password);
+        $query->bindParam(':email', $email);
+        return $query->execute();
+    } catch (Exception $e) {
+        die('Error: ' . $e->getMessage());
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 }
 ?>

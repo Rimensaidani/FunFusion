@@ -1,41 +1,3 @@
-<?php
-session_start();
-require_once '../../Model/user.php';
-require_once '../../config.php';
-require_once '../../Controller/userController.php';
-
-$error = '';
-
-if (isset($_POST['signin'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $controller = new userController();
-    $user = $controller->getUserByUsername($username);
-
-    
-    if ($user && $user['password'] === $password) {
-    
-        $_SESSION['user']    = $user;
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role']    = $user['role'];  
-
-        
-        if ($user['role'] === 'admin') {
-            header('Location:../../View/backOffice/dashboard/index.php');
-        } else {
-            header('Location:../../View/frontOffice/index_signin.php');
-        }
-        exit;
-    } else {
-        $error = "Nom d'utilisateur ou mot de passe incorrect.";
-    }
-}
-?>
-
-
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,7 +8,7 @@ if (isset($_POST['signin'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!-- site metas -->
-        <title>Sign in | FunFusion</title>
+        <title>Reset Password |FunFusion</title>
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -76,7 +38,7 @@ if (isset($_POST['signin'])) {
                 <div class="row">
                     <div class="col-md-12">
                         <div class="titlepage">
-                            <h3>Sign In</h3>
+                            <h3>Password Recovery</h3>
                         </div>
                     </div>
                 </div>
@@ -86,28 +48,22 @@ if (isset($_POST['signin'])) {
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="contact">
     
-                                <form method="post" action="">
+                                <form id="myForm">
                                     <div class="row">
-                                        
-                                        <div class="col-sm-12"><br><br><br><br><br>
-                                            <input class="contactus" type="text" name="username" required minlength="3" autofocus placeholder="Username"><br>
-                                        </div>
-                                        
-                                        <div class="col-sm-12">
-                                            <input class="contactus" type="password" name="password" required placeholder="Password"><br>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <u><a href="choose.php">Forgot password?</a></u>
+                                        <div class="col-sm-12"><br><br><br><br>
+                                        <p>Please choose a method to receive </p>
+                                        <p>your password reset code </p>
                                         </div>
                                         
                                         
-                                        <div class="col-sm-12"><br><br>
-                                            <button name="signin" class="send">Sign in</button><br><br><br><br><br>
+                                        <div class="col-sm-12"><br>
+                                            <br><br><br><a data-aos="fade-right" data-aos-delay="900" href="password.php" class="send">SMS verification</a><br><br><br>
                                         </div>
-                                        
-                                        <div class="col-sm-12">
-                                            <u><a href="addUser.php">Need an account? Sign up!</a></u>
+
+                                        <div class="col-sm-12"><br>
+                                            <a data-aos="fade-right" data-aos-delay="900" href="email.php" class="send">Email verification</a><br>
                                         </div>
+
 
                                     </div>
                                 </form>
@@ -126,7 +82,7 @@ if (isset($_POST['signin'])) {
 
 
 
-                    
+    <script src="js/phoneConfirmation"></script>            
 
     </body>
  

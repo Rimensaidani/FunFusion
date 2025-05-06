@@ -30,7 +30,7 @@ function verifyPhone()
             $message = "Your FunFusion verification code is: " . $verificationCode;
             sendSMS($phone, $message);
 
-            header('Location: ../View/backOffice/verifyCode.php'); // Ensure this path is correct
+            header('Location: ../View/backOffice/verifyCode.php'); 
             exit();
         } else {
             echo "Phone number not found. Please try again.";
