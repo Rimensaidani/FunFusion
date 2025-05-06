@@ -5,7 +5,7 @@ session_start();
 require_once '../Model/UserModel.php';
 
 if (!isset($_SESSION['reset_email'])) {
-    die('⚠️ Session expired or invalid access.');
+    die('Session expired or invalid access.');
 }
 
 $email = $_SESSION['reset_email'];

@@ -306,7 +306,7 @@ $ageStats = $userModel->getUserCountByAgeRange();
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">CORE</div>
-                        <a class="nav-link active" href="../../frontOffice/index_signin.php">
+                        <a class="nav-link active" href="../../frontOffice/index_signin_admin.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Website
                         </a>

@@ -9,7 +9,9 @@ $captcha_length = 6;
 $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 for ($i = 0; $i < $captcha_length; $i++) {
-    $captcha_code .= $characters[rand(0, strlen($characters) - 1)];
+    //$captcha_code .= $characters[rand(0, strlen($characters) - 1)];
+    $captcha_code .= $characters[random_int(0, strlen($characters) - 1)];
+
 }
 
 $_SESSION['captcha'] = $captcha_code;
@@ -19,9 +21,15 @@ $image_width = 210;
 $image_height = 50;
 $image = imagecreate($image_width, $image_height);
 
+for ($y = 0; $y < $image_height; $y++) {
+    $gradient_color = imagecolorallocate($image, 255 - $y, 255 - $y, 255);
+    imageline($image, 0, $y, $image_width, $y, $gradient_color);
+}
+
 
 $background_color = imagecolorallocate($image, 255, 255, 255); 
-$text_color = imagecolorallocate($image, 0, 0, 0);             
+//$text_color = imagecolorallocate($image, 0, 0, 0);             
+$text_color = imagecolorallocate($image, rand(0,100), rand(0,100), rand(0,100));
 
 
 for ($i = 0; $i < 1000; $i++) {
@@ -35,6 +43,9 @@ for ($i = 0; $i < 10; $i++) {
     imageline($image, rand(0,$image_width), rand(0,$image_height), rand(0,$image_width), rand(0,$image_height), $line_color);
 }
 
+$ghost_color = imagecolorallocatealpha($image, 100, 100, 100, 90); // Presque invisible
+imagettftext($image, $font_size, rand(-25, 25), rand(0, $image_width - 30), rand(20, $image_height - 10), $ghost_color, $font_path, substr(str_shuffle($characters), 0, 3));
+
 
 $font_path = __DIR__ . '/assets/fonts/arial.ttf'; // Make sure the path is correct
 $font_size = 16;
@@ -44,10 +55,11 @@ if (!file_exists($font_path)) {
     die('Font file not found: ' . $font_path);
 }
 
-
-$x = 10; 
+$x += $char_width + rand(2, 6);
+//$x = 10; 
 $min_x = 10;
 $max_x = 25; 
+
 
 for ($i = 0; $i < strlen($captcha_code); $i++) {
     $angle = rand(-20, 20); 

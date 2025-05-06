@@ -38,9 +38,9 @@ if ($userModel->emailExists($email)) {
         header("Location: ../View/backOffice/verifyEmailcode.php");
         exit();
     } catch (Exception $e) {
-        echo "⚠️ Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 } else {
-    echo "⚠️ Email address not found.";
+    echo "Email address not found.";
 }
 ?>
