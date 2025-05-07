@@ -54,8 +54,7 @@
                                         <p>Please choose a method to receive </p>
                                         <p>your password reset code </p>
                                         </div>
-                                        
-                                        
+                                                                           
                                         <div class="col-sm-12"><br>
                                             <br><br><br><a data-aos="fade-right" data-aos-delay="900" href="password.php" class="send">SMS verification</a><br><br><br>
                                         </div>
@@ -63,8 +62,7 @@
                                         <div class="col-sm-12"><br>
                                             <a data-aos="fade-right" data-aos-delay="900" href="email.php" class="send">Email verification</a><br>
                                         </div>
-
-
+  
                                     </div>
                                 </form>
                             </div>
@@ -80,9 +78,7 @@
         </div>
 
 
-
-
-    <script src="js/phoneConfirmation"></script>            
+   
 
     </body>
  

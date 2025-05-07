@@ -31,16 +31,20 @@ if ($userModel->emailExists($email)) {
         $mail->addAddress($email);
 
         $mail->Subject = 'FunFusion - Password Reset Code';
-        $mail->Body    = "Your code is: $code";
+        $mail->Body    = "Your verification code is: $code";
 
         $mail->send();
 
         header("Location: ../View/backOffice/verifyEmailcode.php");
         exit();
-    } catch (Exception $e) {
+    } 
+    catch (Exception $e) 
+    {
         echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-} else {
+} 
+else 
+{
     echo "Email address not found.";
 }
 ?>

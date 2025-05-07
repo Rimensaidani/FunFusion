@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Responsive Stylesheet -->
     <link rel="stylesheet" href="assets/css/responsive.css">
+
+
 </head>
 
 <body>
@@ -691,6 +693,78 @@
             </div>
         </div>-->
         <!-- Widgets End -->
+
+        <!-- Contact -->
+        <!--
+        <div class="footer ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Get in touch</h2>
+                    </div>
+                    
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 ">
+                                <div class="address">
+                                    <ul class="social_link">
+                                        <li><a href="#"><img src="icon/fb.png"></a></li>
+                                        <li><a href="#"><img src="icon/tw.png"></a></li>
+                                        <li><a href="#"><img src="icon/lin(2).png"></a></li>
+                                         <li><a href="#"><img src="icon/instagram.png"></a></li>
+                                    </ul>
+                                    <a href="index.html"> <img src="images/logo.png" alt="logo"></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="address">
+                                    <h3>Quick links</h3>
+                                    <ul class="Menu_footer">
+                                        <li class="active"> <img src="images/3.png" alt="#"> <a href="#game">Game</a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#software">Software</a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#about">About</a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#testimonial"> Testimonial</a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#contact">Contact</a> </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="address">
+                                    <h3>downloded</h3>
+                                    <ul class="Links_footer">
+                                        <li class="active"><img src="images/3.png" alt="#"> <a href="#">Lorem Ipsum </a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#">Simply random</a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#">Roots in a</a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#"> Piece</a> </li>
+                                        <li><img src="images/3.png" alt="#"> <a href="#">Classical</a> </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-sm-6 ">
+                                <div class="address">
+                                    <h3>Contact us </h3>
+                                    <ul class="loca">
+                                        <li>
+                                            <a href="#"><img src="icon/loc.png" alt="#" /></a>London 145
+                                            <br>United Kingdom </li>
+                                        <li>
+                                            <a href="#"><img src="icon/email.png" alt="#" /></a>demo@gmail.com </li>
+                                        <li>
+                                            <a href="#"><img src="icon/call.png" alt="#" /></a>+12586954775 </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            </div> -->
+
+            <!-- End Contact -->
+
         <!-- Foot Note Start -->
         <div class="foot-note">
             <div class="container">

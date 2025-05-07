@@ -68,7 +68,7 @@ unset($_SESSION['error_message']);
 
 
                                         <div class="col-sm-12"><br><br><br>
-                                            <label class="contactus" for="code">Verification Code:</label><br>
+                                            <label  for="code">Verification Code:</label><br>
                                             <input class="contactus" type="text" id="code" name="code" required autofocus placeholder="Code"><br>
                                         </div>
 
