@@ -15,6 +15,7 @@ class CommentController {
     public function createComment($post_id, $content) {
         $this->comment->post_id = $post_id;
         $this->comment->content = $content;
+        $this->comment->user_id = CURRENT_USER_ID;
         if ($this->comment->create()) {
             echo "Comment created successfully!";
         } else {

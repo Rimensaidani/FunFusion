@@ -1,6 +1,17 @@
 <?php
 // Database Connection and Post fetching logic
+function censorContent($content) {
+    // List of words to censor
+    $prohibitedWords = ['Amin', 'pppp', 'nour', 'malek'];
 
+    // Replace each prohibited word with asterisks (assuming the same length as the word)
+    foreach ($prohibitedWords as $word) {
+        $replacement = str_repeat('*', strlen($word)); // Create a string of asterisks of the same length
+        $content = str_ireplace($word, $replacement, $content); // Case-insensitive replacement
+    }
+
+    return $content;
+}
 
 function getPosts($searchTerm = null) {
     $db = new Database(); // Create a new Database instance
@@ -212,7 +223,7 @@ $posts = getPosts($searchQuery); // Fetch posts with the search term
     <?php else: ?>
         <?php foreach ($posts as $post): ?>
     <div class="post-card p-3 mb-4 border rounded shadow-sm bg-white">
-        <h4 class="post-title text-primary"><?php echo htmlspecialchars($post['title']); ?></h4>
+    <h4 class="post-title text-primary"><?php echo htmlspecialchars(censorContent($post['title'])); ?></h4>
         <p><?php echo htmlspecialchars($post['content']); ?></p>
 
         <!-- Delete Button (only if current user is owner) -->
@@ -237,10 +248,19 @@ $posts = getPosts($searchQuery); // Fetch posts with the search term
                 <p>No comments yet.</p>
             <?php else: ?>
                 <?php foreach ($comments as $comment): ?>
-                    <div class="comment p-3 mb-2 bg-light border-left border-primary rounded">
-                        <p><?php echo htmlspecialchars($comment['content']); ?></p>
-                    </div>
-                <?php endforeach; ?>
+        <div class="comment p-3 mb-2 bg-light border-left border-primary rounded">
+            <p><?php echo htmlspecialchars(censorContent($comment['content'])); ?></p>
+
+            <!-- Check if the current user is the owner of the comment -->
+            <?php if (CURRENT_USER_ID === (int)$comment['user_id']): ?>
+                <td>
+                                                    <a href="index.php?action=delete_comment&comment_id=<?= $comment['id'] ?>&post_id=<?= $comment['post_id'] ?>" class="btn btn-danger btn-sm">Delete</a>
+                                                    <button data-id="<?= $comment['id'] ?>" data-content="<?= htmlspecialchars($comment['content']) ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCommentModal">Edit</button>
+                                                </td>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+
         <?php endif; ?>
 
         <!-- Add Comment Form -->

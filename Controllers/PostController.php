@@ -19,7 +19,19 @@ class PostController {
             echo "Unable to create post.";
         }
     }
+    public function getPostsWithCommentCount() {
+        $query = "
+            SELECT posts.id, posts.title, COUNT(comments.id) AS comment_count
+            FROM posts
+            LEFT JOIN comments ON posts.id = comments.post_id
+            GROUP BY posts.id
+        ";
 
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function getAllPosts() {
         $post = new Post(); // Create a new instance of Post to fetch posts
         $stmt = $post->read($this->db); // Call read and get the statement

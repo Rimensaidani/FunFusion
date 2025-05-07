@@ -9,7 +9,7 @@ $db = $database->getConnection();
 $postController = new PostController($db);
 $commentController = new CommentController($db);
 
-define('CURRENT_USER_ID', 1);
+define('CURRENT_USER_ID', 2);
 // Define actions based on GET request
 $action = $_GET['action'] ?? 'home';
 
@@ -46,7 +46,7 @@ switch ($action) {
 
     case 'create_comment':
         if (isset($_POST['comment_text'], $_POST['post_id'])) {
-            $commentController->createComment($_POST['post_id'], $_POST['comment_text']);
+            $commentController->createComment($_POST['post_id'], $_POST['comment_text'],CURRENT_USER_ID);
             // Redirect to the comments page where the comment was posted
             header("Location: index.php?action=home&post_id={$_POST['post_id']}"); 
             exit;

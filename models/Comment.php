@@ -8,6 +8,8 @@ class Comment {
     public $post_id;
     public $content;
     public $created_at;
+    public $user_id;
+
 
     // Constructor to initialize the database connection
     public function __construct($db) {
@@ -16,16 +18,18 @@ class Comment {
 
     // Create a new comment
     public function create() {
-        $query = "INSERT INTO " . $this->table . " (post_id, content) VALUES (:post_id, :content)";
+        $query = "INSERT INTO " . $this->table . " (post_id, content, user_id) VALUES (:post_id, :content, :user_id)";
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input
         $this->post_id = htmlspecialchars(strip_tags($this->post_id));
         $this->content = htmlspecialchars(strip_tags($this->content));
+        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
 
         // Bind values
         $stmt->bindParam(":post_id", $this->post_id);
         $stmt->bindParam(":content", $this->content);
+        $stmt->bindParam(":user_id", $this->user_id);
 
         // Execute the query
         if ($stmt->execute()) {
@@ -109,6 +113,18 @@ class Comment {
         }
 
         return false;
+    }
+    public function getCommentsByPostId($commentId) {
+        $query = "SELECT content, created_at, post_id FROM comments WHERE id = :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $commentId);
+        $stmt->execute();
+    
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+    
+        return null; // Return null if no comment found
     }
 }
 ?>
